@@ -1,8 +1,12 @@
 # Репозиторий для автоматизации тестирования модуля "Экономика"
 
 ## Перед началом работы
+### Python
+1. Установи **Python 3.11.1** (https://www.python.org/downloads/release/python-3111/)
+
+
 ### Poetry
-1. Установи **poetry** (https://python-poetry.org/docs/)
+1. Установи **poetry** (https://python-poetry.org/docs/) `Он нужен для управления зависимостями`
 2. 
 
 ### Config
@@ -12,5 +16,11 @@
 ### ffmpeg
 1. Создай папку **"tools"** в корневой директории
 2. Скачай любой билд ffmpeg и распакуй в папку **"tools""**
-3. Скачай **VLC media player**, он нужен для проигрывания видеозаписей автотестов
+3. Скачай **VLC media player**                           `Он нужен для проигрывания видеозаписей автотестов`
 4. Пропиши в **config.py** путь к ffmpeg в соответствующей строке
+
+### Allure
+1. Установи **allure** (https://docs.qameta.io/allure/)
+2. Команды для терминала:
+   1. pytest --alluredir allure_report_data              `Запускает все тесты и собирает данные для репорта`
+   2. allure serve allure_report_data                    `Создает отчет по результатам тестов`
