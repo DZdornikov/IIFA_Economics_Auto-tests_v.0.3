@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "iifa-economics-auto-tests-v-0-3"
+version = "0.1.0"
+description = ""
+authors = ["dpodolny <dpodolny@nntc.pro>"]
+readme = "README.md"
+packages = [{include = "iifa_economics_auto_tests_v"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
