@@ -10,7 +10,8 @@ from time import sleep
 from pages.sign_in_page import SignInPage
 
 # Переменные
-report_dir = fr'{main_dir}\video_reports'                                           # Берем путь в директорию с видео
+video_reports_dir = fr'{main_dir}\video_reports'                    # Путь к директории видео тестов
+allure_report_data_dir = fr'{main_dir}\allure_report_data'          # Путь к директории данных для allure
 
 
 # Set_up & Tear_down функция. Запускает браузер и тушит его в самом конце теста
@@ -21,14 +22,6 @@ def driver():
     yield driver
     driver.quit()
 
-
-# Функция для очистки папки с видео. ПОСЛЕДСТВИЯ НЕОБРАТИМЫ!!!
-# Запуск только в PyCharm. Нужно снять комментарий, запустить, закомментировать. Если не закомментировать, то будет
-# очень плохо
-# @pytest.mark.novideo
-# def test_clear_video_dir():
-#     for f in listdir(report_dir):
-#         remove(path.join(report_dir, f))
 
 # Функция для автозаписи и сохранения видео
 @pytest.fixture(scope="function", autouse=True)
@@ -65,3 +58,21 @@ def sign_in_to_stand(driver, stand=current_stand):
     sign_in_page.open()
     sign_in_page.keycloak_authorization()
     pass
+
+
+# Функция для очистки папки с видео. ПОСЛЕДСТВИЯ НЕОБРАТИМЫ!!!
+# Запуск только в PyCharm. Нужно снять комментарий, запустить, закомментировать. Если не закомментировать, то будет
+# очень плохо
+# @pytest.mark.novideo
+# def test_clear_video_dir():
+#     for f in listdir(video_reports_dir):
+#         remove(path.join(report_dir, f))
+
+
+# Функция для очистки папки allure_report_data. ПОСЛЕДСТВИЯ НЕОБРАТИМЫ!!!
+# Запуск только в PyCharm. Нужно снять комментарий, запустить, закомментировать. Если не закомментировать, то будет
+# очень плохо
+# @pytest.mark.novideo
+# def test_clear_allure_dir():
+#     for f in listdir(allure_report_dir):
+#         remove(path.join(report_dir, f))
