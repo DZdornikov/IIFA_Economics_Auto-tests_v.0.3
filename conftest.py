@@ -7,6 +7,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from os import listdir, remove, path
 from datetime import datetime as dt
 from time import sleep
+from pages.sign_in_page import SignInPage
 
 # Переменные
 report_dir = fr'{main_dir}\video_reports'                                           # Берем путь в директорию с видео
@@ -56,7 +57,11 @@ def record_video(request):
                 # Remove video file if test passed
                 remove(outfile)
 
+
 # Функция для входа на стенд. Запускает модуль "Экономика" по адресу стенда, проходит KeyCloak
 @pytest.fixture()
 def sign_in_to_stand(driver, stand=current_stand):
+    sign_in_page = SignInPage(driver, stand)
+    sign_in_page.open()
+    sign_in_page.keycloak_authorization()
     pass
