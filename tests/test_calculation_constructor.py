@@ -8,6 +8,7 @@ class TestCalculationConstructor:
 
     @allure.feature("Удаление МК с фронта")
     @allure.story("Удаление всех имеющихся на стенде МК")
+    @allure.severity(allure.severity_level.CRITICAL)
     @pytest.mark.c_c_clear_mb
     def test_clear_stand(self, sign_in_to_stand):
         with allure.step("Прохождение авторизации на стенде"):
