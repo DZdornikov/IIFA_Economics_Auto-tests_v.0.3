@@ -22,6 +22,7 @@ class TestCalculationConstructor:
 
     @allure.feature("Парсер МК")
     @allure.story("Загрузка всех имеющихся МК на стенд и проверка, что все загрузилось корректно")
+    @allure.severity(allure.severity_level.BLOCKER)
     @pytest.mark.sandbox
     def test_parser(self, sign_in_to_stand):
         with allure.step("Прохождение авторизации на стенде"):
@@ -38,6 +39,7 @@ class TestCalculationConstructor:
 
     @allure.feature("Ядро расчетов")
     @allure.story("Выбор случайной МК, случайного кейса и расчет с первыми попавшимися макрой и ФЭМ")
+    @allure.severity(allure.severity_level.BLOCKER)
     @pytest.mark.sandbox
     def test_calculation(self, sign_in_to_stand):
         pass

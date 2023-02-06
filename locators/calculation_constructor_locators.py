@@ -10,3 +10,5 @@ class CalculationConstructorLocators:
                                                  "ontent.MuiAccordionSummary-contentGutters.css-s2q1rt > button")
     second_button_MB = (By.CSS_SELECTOR, "#description-menu > div > ul > li:nth-child(2)")
     confirm_delete_button_MB = (By.CSS_SELECTOR, "body > div > div.MuiBox-root.css-1xt3qe > div > button:nth-child(1)")
+    upload_MB = (By.CSS_SELECTOR, "#root > div.MuiBox-root.css-18cq61h > div:nth-child(3) > div > div > div:nth-child(1"
+                                  ") > div > div > div > div.MuiGrid-root.css-rfnosa > div > button > input[type=file]")

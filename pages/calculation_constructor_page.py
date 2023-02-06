@@ -1,6 +1,7 @@
 from pages.base_page import BasePage
 from config import current_stand
 from locators.calculation_constructor_locators import CalculationConstructorLocators as CCLocators
+from files.files_list import CalculationConstructorFilesList as CCFiles
 from selenium.webdriver.common.by import By
 from time import sleep
 
@@ -57,7 +58,7 @@ class CalculationConstructorPage(BasePage):
         return mb_num
 
     # Функция, которая принимает название МК и список его кейсов. Проходится по всем МК, находит нужную, открывает,
-    # считает кейсы
+    # считает кейсы, сверяет их число с ожидаемым
     def mb_checker(self, mb_name, mb_list):
         # Проверяем есть ли вообще МК на стенде
         if not self.visible_element_present(CCLocators.first_MB):
@@ -107,5 +108,40 @@ class CalculationConstructorPage(BasePage):
             else:
                 continue
 
-    def upload_mb(self):
-        pass
+    # Функция, которая принимает название МК и максимальный таймер ожидания. Загружает МК на стенд и запускает проверки по всем консолидациям
+    def upload_mb(self, mb_name, timer):
+        # Блок, который разбирается какую консолидацию и список кейсов прикрепить в запрос к чекеру
+        if mb_name == CCFiles.MB_GEE_filename:
+            file, cons_list, cases_list = CCFiles.MB_GEE_dir, CCFiles.MB_GEE_consolidations, CCFiles.MB_GEE_cases
+        elif mb_name == CCFiles.MB_KUV_filename:
+            file, cons_list, cases_list = CCFiles.MB_KUV_dir, CCFiles.MB_KUV_consolidations, CCFiles.MB_KUV_cases
+        elif mb_name == CCFiles.MB_CNT_filename:
+            file, cons_list, cases_list = CCFiles.MB_CNT_dir, CCFiles.MB_CNT_consolidations, CCFiles.MB_CNT_cases
+        elif mb_name == CCFiles.MB_YUUNG_filename:
+            file, cons_list, cases_list = CCFiles.MB_YUUNG_dir, CCFiles.MB_YUUNG_consolidations, CCFiles.MB_YUUNG_cases
+        elif mb_name == CCFiles.MB_YUUNG_BUR_filename:
+            file, cons_list, cases_list = CCFiles.MB_YUUNG_BUR_dir, CCFiles.MB_YUUNG_BUR_consolidations, \
+                                           CCFiles.MB_YUUNG_BUR_cases
+        elif mb_name == CCFiles.MB_YAG_filename:
+            file, cons_list, cases_list = CCFiles.MB_YAG_dir, CCFiles.MB_YAG_consolidations, CCFiles.MB_YAG_cases
+        else:
+            assert False, "Неизвестное название МК"
+
+        # Считаем, сколько МК на стенде до загрузки
+        mb_num = self.mb_counter()
+        # Закидываем файл в парсер через фронт
+        self.send_keys_to_hidden_element(CCLocators.upload_MB, file)
+        # Проверяем а не загрузился ли, если загрузился, то дропаем ожидание
+        for i in range(timer // 6):
+            new_mb_num = self.mb_counter()
+            if new_mb_num > mb_num:
+                break
+        # Запускаем цикл проверок
+        for j in range(len(cons_list)):
+            self.mb_checker(cons_list[j], cases_list[j])
+
+
+
+
+
+

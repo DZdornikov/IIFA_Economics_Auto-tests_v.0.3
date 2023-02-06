@@ -10,8 +10,8 @@ from time import sleep
 from pages.sign_in_page import SignInPage
 
 # Переменные
-video_reports_dir = fr'{main_dir}\video_reports'                    # Путь к директории видео тестов
-allure_report_data_dir = fr'{main_dir}\allure_report_data'          # Путь к директории данных для allure
+video_reports_dir = fr'{main_dir}\video_reports'                            # Путь к директории видео тестов
+allure_report_data_dir = fr'{main_dir}\tests\allure_report_data'            # Путь к директории данных для allure
 
 
 # Set_up & Tear_down функция. Запускает браузер и тушит его в самом конце теста
