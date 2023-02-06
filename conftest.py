@@ -35,7 +35,7 @@ def record_video(request):
         if (not path.exists(ffmpeg_path)) or (mode == 'none'):
             yield
         else:
-            outfile = f"{report_dir}\\{request.node.name}_{dt.now().strftime('%H_%M_%S')}.mp4"
+            outfile = f"{video_reports_dir}\\{request.node.name}_{dt.now().strftime('%H_%M_%S')}.mp4"
             cmd = f'{ffmpeg_path} -f gdigrab -framerate ntsc -video_size 1920x1080 -i desktop {outfile}'
             ffmpeg_process = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                                               stdin=subprocess.PIPE)
@@ -57,7 +57,7 @@ def sign_in_to_stand(driver, stand=current_stand):
     sign_in_page = SignInPage(driver, stand)
     sign_in_page.open()
     sign_in_page.keycloak_authorization()
-    pass
+    return sign_in_page
 
 
 # Функция для очистки папки с видео. ПОСЛЕДСТВИЯ НЕОБРАТИМЫ!!!
@@ -66,7 +66,7 @@ def sign_in_to_stand(driver, stand=current_stand):
 # @pytest.mark.novideo
 # def test_clear_video_dir():
 #     for f in listdir(video_reports_dir):
-#         remove(path.join(report_dir, f))
+#         remove(path.join(video_reports_dir, f))
 
 
 # Функция для очистки папки allure_report_data. ПОСЛЕДСТВИЯ НЕОБРАТИМЫ!!!
@@ -74,5 +74,5 @@ def sign_in_to_stand(driver, stand=current_stand):
 # очень плохо
 # @pytest.mark.novideo
 # def test_clear_allure_dir():
-#     for f in listdir(allure_report_dir):
-#         remove(path.join(report_dir, f))
+#     for f in listdir(allure_report_data_dir):
+#         remove(path.join(allure_report_data_dir, f))

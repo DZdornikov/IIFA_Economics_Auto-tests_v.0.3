@@ -28,6 +28,13 @@ class BasePage:
         except TimeoutException:
             assert False, "Элемент не найден"
 
+    def visible_element_present(self, locator):
+        try:
+            _ = Wait(self.driver, 5).until((ec.visibility_of_element_located(locator)))
+        except TimeoutException:
+            return False
+        return True
+
     # Проверяет кликабельный ли элемент и возвращает boolean
     @staticmethod
     def element_is_clickable(locator):

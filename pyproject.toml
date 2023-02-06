@@ -13,6 +13,15 @@ allure-pytest = "^2.12.0"
 selenium = "^4.8.0"
 webdriver-manager = "^3.8.5"
 
+[tool.pytest.ini_options]
+markers = [
+    "sandbox",
+    "c_c_upload_mb",
+    "c_c_clear_mb",
+    "c_c_smoke",
+    "r_clear_reports",
+    "guide",
+]
 
 [build-system]
 requires = ["poetry-core"]
