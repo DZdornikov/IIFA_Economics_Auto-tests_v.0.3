@@ -5,6 +5,7 @@ from locators.calculation_constructor_locators import CalculationConstructorLoca
 from files.files_list import CalculationConstructorFilesList as CCFiles
 from selenium.webdriver.common.by import By
 from time import sleep
+from random import randint
 
 # Переменные
 calculation_current_stand = current_stand + "calculation-constructor"
@@ -27,15 +28,8 @@ class CalculationConstructorPage(BasePage):
         if not self.visible_element_present(CCLocators.first_MB):
             # Если на стенде нет МастерКниг, то пропускаем удаление
             pass
-        mb_num = 0
         with allure.step("Подчет всех МК на стенде"):
-            for i in range(1, 101):
-                mb_locator = (By.CSS_SELECTOR,
-                              '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div > div > div.Mu'
-                              'iGrid-root.css-rfnosa > div:nth-child(' + str(i + 1) + ')')
-                if not self.visible_element_present(mb_locator):
-                    mb_num = i - 1
-                    break
+            mb_num = CalculationConstructorPage.mb_counter(self)
         with allure.step("Удаление всех МК на стенде"):
             for k in range(mb_num):
                 self.click_on_visible_element(CCLocators.additional_menu_first_MB)
@@ -56,7 +50,7 @@ class CalculationConstructorPage(BasePage):
     # Функция, которая считает мастеркниги на стенде и возвращает их количество
     def mb_counter(self):
         mb_num = 0
-        for i in range(1, 101):
+        for i in range(1, 1001):
             mb_locator = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div >'
                                            ' div > div.MuiGrid-root.css-rfnosa > div:nth-child(' + str(i + 1) + ')')
             if not self.visible_element_present(mb_locator):
@@ -70,7 +64,7 @@ class CalculationConstructorPage(BasePage):
         # TODO: ИНТЕГРИРОВАТЬ СТЕПЫ АЛЛЮРА БЕЗ КОСТЫЛЕЙ
         if not self.visible_element_present(CCLocators.first_MB):
             assert False, "МастерКниги отсутствуют на стенде"
-        mb_num = self.mb_counter()
+        mb_num = CalculationConstructorPage.mb_counter(self)
         case_counter = 0
         # Проходимся по всем МК
         for i in range(1, mb_num + 1):
@@ -136,13 +130,53 @@ class CalculationConstructorPage(BasePage):
             assert False, "Неизвестное название МК"
 
         with allure.step("Подсчет МК на стенде до начала загрузки"):
-            mb_num = self.mb_counter()
+            mb_num = CalculationConstructorPage.mb_counter(self)
         with allure.step("Загрузка файла и ожидание его появления на фронте"):
             self.send_keys_to_hidden_element(CCLocators.upload_MB, file)
             for i in range(timer // 6):
-                new_mb_num = self.mb_counter()
+                new_mb_num = CalculationConstructorPage.mb_counter(self)
                 if new_mb_num > mb_num:
                     break
         with allure.step("Проверка что при загрузке ничего не потерялось"):
             for j in range(len(cons_list)):
-                self.mb_checker(cons_list[j], cases_list[j])
+                CalculationConstructorPage.mb_checker(self, cons_list[j], cases_list[j])
+
+    # Функция выбирает случайный кейс, первые попавшиеся ФЭМ и Макру, производит расчет, скачивает полученный отчет и
+    # проверяет скачался ли файл
+    def calculate_random_case(self):
+        with allure.step("Подсчет количества МК на стенде"):
+            mb_num = CalculationConstructorPage.mb_counter(self)
+        # TODO: а если в консолидации всего один кейс и он в черном списке?
+        with allure.step("Поиск подходящего кейса среди случайных"):
+            for i in range(1, mb_num+1):
+                with allure.step("Выбор случайной консолидации"):
+                    mb_num = randint(1, mb_num)
+                    mb_locat = (By.CSS_SELECTOR,
+                                '#root > div.MuiBox-root.css-18cq61h > div:nth-child(3) > div > div > div:nth-child(1) '
+                                '> div > div > div > div.MuiGrid-root.css-rfnosa > div:nth-child(' + str(mb_num + 1) +
+                                ') > div > div:nth-child(2) > svg')
+                    mb_name = self.text_of_visible_element(mb_locat)
+                with allure.step(f"Раскрытие консолидации с названием {mb_name}"):
+                    self.click_on_visible_element(mb_locat)
+                with allure.step("Подсчет кейсов в консолидации"):
+                    case_counter = 0
+                    for j in range(1, 36):
+                        # TODO: прописать локатор для кейса
+                        if self.visible_element_present('case_locator'):
+                            case_counter += 1
+                        else:
+                            break
+                with allure.step("Выбор случайного кейса"):
+                    case_num = str(randint(1, case_counter + 1))
+                    case_locator = (By.CSS_SELECTOR,'' + case_num + ''
+                                    )
+                    case_name = self.text_of_visible_element('case_locator')
+                    if case_name in CCFiles.cases_black_list:
+                        print(f'Кейс с названием {case_name} находится в черном списке, подбираю другой...')
+                        continue
+                    else:
+                        self.click_on_visible_element('case_locator')
+                        break
+            with allure.step("Выбор первых в списке ФЭМ и макропараметров"):
+                # TODO: остановился тут
+                pass
