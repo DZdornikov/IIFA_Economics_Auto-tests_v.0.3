@@ -6,7 +6,6 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from os import listdir, remove, path
 from datetime import datetime as dt
-from time import sleep
 from pages.sign_in_page import SignInPage
 
 # Переменные
@@ -26,7 +25,6 @@ def driver():
 # Функция для автозаписи и сохранения видео
 @pytest.fixture(scope="function", autouse=True)
 def record_video(request):
-    sleep(10)
     """Fixture records video for all tests and saves it if test failed"""
     if 'novideo' in request.keywords:
         yield
