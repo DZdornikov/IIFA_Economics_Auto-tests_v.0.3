@@ -1,3 +1,4 @@
+import allure
 from pages.base_page import BasePage
 from config import current_stand
 from locators.calculation_constructor_locators import CalculationConstructorLocators as CCLocators
@@ -27,24 +28,30 @@ class CalculationConstructorPage(BasePage):
             # Если на стенде нет МастерКниг, то пропускаем удаление
             pass
         mb_num = 0
-        for i in range(1, 101):
-            mb_locator = (By.CSS_SELECTOR,
-                          '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div > div > div.MuiGri'
-                          'd-root.css-rfnosa > div:nth-child(' + str(i + 1) + ')')
-            if not self.visible_element_present(mb_locator):
-                mb_num = i - 1
-                break
-        for k in range(mb_num):
-            self.click_on_visible_element(CCLocators.additional_menu_first_MB)
-            self.click_on_visible_element(CCLocators.second_button_MB)
-            self.click_on_visible_element(CCLocators.confirm_delete_button_MB)
+        with allure.step("Подчет всех МК на стенде"):
+            for i in range(1, 101):
+                mb_locator = (By.CSS_SELECTOR,
+                              '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div > div > div.Mu'
+                              'iGrid-root.css-rfnosa > div:nth-child(' + str(i + 1) + ')')
+                if not self.visible_element_present(mb_locator):
+                    mb_num = i - 1
+                    break
+        with allure.step("Удаление всех МК на стенде"):
+            for k in range(mb_num):
+                self.click_on_visible_element(CCLocators.additional_menu_first_MB)
+                self.click_on_visible_element(CCLocators.second_button_MB)
+                self.click_on_visible_element(CCLocators.confirm_delete_button_MB)
+                sleep(1)
+        with allure.step("Проверка остались ли МК на странице"):
+            if self.visible_element_present(CCLocators.first_MB):
+                assert False, "Какая-то из мастеркниг не удалилась со стенда"
+        with allure.step("F5 и повторная проверка"):
+            self.refresh()
             sleep(1)
-        self.refresh()
-        sleep(1)
-        if not self.visible_element_present(CCLocators.first_MB):
-            pass
-        else:
-            assert False, "Какая-то из мастеркниг не удалилась со стенда."
+            if not self.visible_element_present(CCLocators.first_MB):
+                pass
+            else:
+                assert False, "Какая-то из мастеркниг не удалилась со стенда."
 
     # Функция, которая считает мастеркниги на стенде и возвращает их количество
     def mb_counter(self):
@@ -60,7 +67,7 @@ class CalculationConstructorPage(BasePage):
     # Функция, которая принимает название МК и список его кейсов. Проходится по всем МК, находит нужную, открывает,
     # считает кейсы, сверяет их число с ожидаемым
     def mb_checker(self, mb_name, mb_list):
-        # Проверяем есть ли вообще МК на стенде
+        # TODO: ИНТЕГРИРОВАТЬ СТЕПЫ АЛЛЮРА БЕЗ КОСТЫЛЕЙ
         if not self.visible_element_present(CCLocators.first_MB):
             assert False, "МастерКниги отсутствуют на стенде"
         mb_num = self.mb_counter()
@@ -108,7 +115,8 @@ class CalculationConstructorPage(BasePage):
             else:
                 continue
 
-    # Функция, которая принимает название МК и максимальный таймер ожидания. Загружает МК на стенд и запускает проверки по всем консолидациям
+    # Функция, которая принимает название МК и максимальный таймер ожидания. Загружает МК на стенд и запускает проверки
+    # по всем консолидациям
     def upload_mb(self, mb_name, timer):
         # Блок, который разбирается какую консолидацию и список кейсов прикрепить в запрос к чекеру
         if mb_name == CCFiles.MB_GEE_filename:
@@ -127,21 +135,14 @@ class CalculationConstructorPage(BasePage):
         else:
             assert False, "Неизвестное название МК"
 
-        # Считаем, сколько МК на стенде до загрузки
-        mb_num = self.mb_counter()
-        # Закидываем файл в парсер через фронт
-        self.send_keys_to_hidden_element(CCLocators.upload_MB, file)
-        # Проверяем а не загрузился ли, если загрузился, то дропаем ожидание
-        for i in range(timer // 6):
-            new_mb_num = self.mb_counter()
-            if new_mb_num > mb_num:
-                break
-        # Запускаем цикл проверок
-        for j in range(len(cons_list)):
-            self.mb_checker(cons_list[j], cases_list[j])
-
-
-
-
-
-
+        with allure.step("Подсчет МК на стенде до начала загрузки"):
+            mb_num = self.mb_counter()
+        with allure.step("Загрузка файла и ожидание его появления на фронте"):
+            self.send_keys_to_hidden_element(CCLocators.upload_MB, file)
+            for i in range(timer // 6):
+                new_mb_num = self.mb_counter()
+                if new_mb_num > mb_num:
+                    break
+        with allure.step("Проверка что при загрузке ничего не потерялось"):
+            for j in range(len(cons_list)):
+                self.mb_checker(cons_list[j], cases_list[j])
