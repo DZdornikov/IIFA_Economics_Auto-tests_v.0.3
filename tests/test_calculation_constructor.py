@@ -16,7 +16,7 @@ class TestCalculationConstructor:
     @allure.feature("Удаление МК с фронта")
     @allure.story("Удаление всех имеющихся на стенде МК")
     @allure.severity(allure.severity_level.CRITICAL)
-    @pytest.mark.c_c_clear_mb
+    @pytest.mark.calculacion_constructor
     def test_clear_stand(self, sign_in_to_stand):
         with allure.step("Прохождение авторизации на стенде"):
             page = sign_in_to_stand
@@ -25,12 +25,13 @@ class TestCalculationConstructor:
             sleep(1)
             CCPage.is_page_calculation_page(page)
         with allure.step("Очистка мастер-книг со стенда"):
+            sleep(4)    # МК появляются не мгновенно
             CCPage.delete_all_masterbooks(page)
 
     @allure.feature("Парсер МК")
     @allure.story("Загрузка всех имеющихся МК на стенд и проверка, что все загрузилось корректно")
     @allure.severity(allure.severity_level.BLOCKER)
-    @pytest.mark.sandbox
+    @pytest.mark.calculacion_constructor
     @pytest.mark.parametrize('mb_name', [CCFiles.MB_GEE_filename, CCFiles.MB_KUV_filename, CCFiles.MB_CNT_filename,
                                          CCFiles.MB_YUUNG_filename, CCFiles.MB_YUUNG_BUR_filename,
                                          CCFiles.MB_YAG_filename])
@@ -50,6 +51,6 @@ class TestCalculationConstructor:
     @allure.story("Выбор случайной МК, случайного кейса и расчет с первыми попавшимися макрой и ФЭМ. "
                   "Переход в отчеты и скачивание файла.")
     @allure.severity(allure.severity_level.BLOCKER)
-    @pytest.mark.sandbox
+    @pytest.mark.calculacion_constructor
     def test_calculation(self, sign_in_to_stand):
         pass
