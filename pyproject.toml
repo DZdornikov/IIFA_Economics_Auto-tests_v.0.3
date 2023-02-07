@@ -16,7 +16,7 @@ webdriver-manager = "^3.8.5"
 [tool.pytest.ini_options]
 markers = [
     "sandbox",
-    "calculacion_constructor"
+    "calculacion_constructor",
     "reports",
     "guide",
 ]
