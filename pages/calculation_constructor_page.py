@@ -27,7 +27,7 @@ class CalculationConstructorPage(BasePage):
     def delete_all_masterbooks(self):
         if not self.visible_element_present(CCLocators.first_MB):
             # Если на стенде нет МастерКниг, то пропускаем удаление
-            pass
+            return
         with allure.step("Подчет всех МК на стенде"):
             mb_num = CalculationConstructorPage.mb_counter(self)
         with allure.step("Удаление всех МК на стенде"):
@@ -156,6 +156,8 @@ class CalculationConstructorPage(BasePage):
                                 '> div > div > div > div.MuiGrid-root.css-rfnosa > div:nth-child(' + str(mb_num + 1) +
                                 ') > div > div:nth-child(2) > svg')
                     mb_name = self.text_of_visible_element(mb_locat)
+                    if mb_name in CCFiles.consolidations_black_list:
+                        continue
                 with allure.step(f"Раскрытие консолидации с названием {mb_name}"):
                     self.click_on_visible_element(mb_locat)
                 with allure.step("Подсчет кейсов в консолидации"):

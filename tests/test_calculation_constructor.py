@@ -9,6 +9,7 @@ from time import sleep
 #       ПРОТЕСТИТЬ ТЕСТ НА ПАРСЕР
 #           ДОПИСАТЬ МЕТА-ДАННЫЕ ПО МК
 #       ДОПИСАТЬ ТЕСТ ЯДРА РАСЧЕТОВ
+#       заменить assert на raise exception там, где это нужно
 
 
 class TestCalculationConstructor:
