@@ -10,6 +10,7 @@ genrestest = 'http://genrestest.nntc.pro/economics/'
 
 # СТРОКИ ЗАПОЛНЯЮТСЯ ПОЛЬЗОВАТЕЛЕМ
 
+tester_name = "Ваня Пупкин"
 main_dir = path.dirname(__file__)
 # Путь к ffmpeg.exe
 ffmpeg_path = fr'{main_dir}\tools\ПУТЬ К ffmpeg.exe'

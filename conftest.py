@@ -11,7 +11,6 @@ from pages.sign_in_page import SignInPage
 
 # Переменные
 video_reports_dir = fr'{main_dir}\video_reports'                            # Путь к директории видео тестов
-# allure_report_data_dir = fr'{main_dir}\tests\allure_report_data'            # Путь к директории данных для allure
 
 
 # Set_up & Tear_down функция. Запускает браузер и тушит его в самом конце теста
@@ -68,12 +67,3 @@ def sign_in_to_stand(driver, stand=current_stand):
 # def test_clear_video_dir():
 #     for f in listdir(video_reports_dir):
 #         remove(path.join(video_reports_dir, f))
-
-
-# Функция для очистки папки allure_report_data. ПОСЛЕДСТВИЯ НЕОБРАТИМЫ!!!
-# Запуск только в PyCharm. Нужно снять комментарий, запустить, закомментировать. Если не закомментировать, то будет
-# очень плохо
-# @pytest.mark.novideo
-# def test_clear_allure_dir():
-#     for f in listdir(allure_report_data_dir):
-#         remove(path.join(allure_report_data_dir, f))

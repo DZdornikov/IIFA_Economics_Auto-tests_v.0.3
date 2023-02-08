@@ -1,5 +1,6 @@
 import allure
 import pytest
+from config import tester_name
 from pages.calculation_constructor_page import CalculationConstructorPage as CCPage
 from files.files_list import CalculationConstructorFilesList as CCFiles
 from time import sleep
@@ -17,6 +18,7 @@ class TestCalculationConstructor:
     @allure.feature("Удаление МК с фронта")
     @allure.story("Удаление всех имеющихся на стенде МК")
     @allure.severity(allure.severity_level.CRITICAL)
+    @allure.description(f"Тест запустил - {tester_name}")
     @pytest.mark.calculacion_constructor
     def test_clear_stand(self, sign_in_to_stand):
         with allure.step("Прохождение авторизации на стенде"):
@@ -32,6 +34,7 @@ class TestCalculationConstructor:
     @allure.feature("Загрузка МК на фронт")
     @allure.story("Загрузка всех имеющихся МК на стенд и проверка, что все загрузилось корректно")
     @allure.severity(allure.severity_level.BLOCKER)
+    @allure.description(f"Тест запустил - {tester_name}")
     @pytest.mark.calculacion_constructor
     @pytest.mark.parametrize('mb_name', [CCFiles.MB_GEE_filename, CCFiles.MB_KUV_filename, CCFiles.MB_CNT_filename,
                                          CCFiles.MB_YUUNG_filename, CCFiles.MB_YUUNG_BUR_filename,
@@ -52,6 +55,7 @@ class TestCalculationConstructor:
     @allure.story("Выбор случайной МК, случайного кейса и расчет с первыми попавшимися макрой и ФЭМ. "
                   "Переход в отчеты и скачивание файла.")
     @allure.severity(allure.severity_level.BLOCKER)
+    @allure.description(f"Тест запустил - {tester_name}")
     @pytest.mark.calculacion_constructor
     def test_calculation(self, sign_in_to_stand):
         with allure.step("Прохождение авторизации на стенде"):
