@@ -33,10 +33,10 @@ class TestCalculationConstructor:
     @allure.story("Загрузка всех имеющихся МК на стенд и проверка, что все загрузилось корректно")
     @allure.severity(allure.severity_level.BLOCKER)
     @pytest.mark.calculacion_constructor
-    # @pytest.mark.parametrize('mb_name', [CCFiles.MB_GEE_filename, CCFiles.MB_KUV_filename, CCFiles.MB_CNT_filename,
-    #                                      CCFiles.MB_YUUNG_filename, CCFiles.MB_YUUNG_BUR_filename,
-    #                                      CCFiles.MB_YAG_filename])
-    def test_parser(self, sign_in_to_stand, mb_name=CCFiles.MB_KUV_filename):
+    @pytest.mark.parametrize('mb_name', [CCFiles.MB_GEE_filename, CCFiles.MB_KUV_filename, CCFiles.MB_CNT_filename,
+                                         CCFiles.MB_YUUNG_filename, CCFiles.MB_YUUNG_BUR_filename,
+                                         CCFiles.MB_YAG_filename])
+    def test_parser(self, sign_in_to_stand, mb_name):
         with allure.step("Прохождение авторизации на стенде"):
             page = sign_in_to_stand
         with allure.step("Переход в конструктор расчетов"):
@@ -54,4 +54,11 @@ class TestCalculationConstructor:
     @allure.severity(allure.severity_level.BLOCKER)
     @pytest.mark.calculacion_constructor
     def test_calculation(self, sign_in_to_stand):
-        pass
+        with allure.step("Прохождение авторизации на стенде"):
+            page = sign_in_to_stand
+        with allure.step("Переход в конструктор расчетов"):
+            CCPage.move_to_calculation_constructor_page(page)
+            sleep(1)
+            CCPage.is_page_calculation_page(page)
+        with allure.step("Расчет с случайным кейсом, первыми попавшимися макрой и ФЭМ"):
+            pass
