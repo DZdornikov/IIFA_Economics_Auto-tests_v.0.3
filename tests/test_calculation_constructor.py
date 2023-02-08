@@ -6,9 +6,7 @@ from files.files_list import CalculationConstructorFilesList as CCFiles
 from time import sleep
 
 # TODO:
-#       СДЕЛАЙ ТЫ УЖЕ, БЛЯТЬ, ФАЙНАЛАЙЗЕР, КОТОРЫЙ БУДЕТ КРЕПИТЬ ВИДОСЫ К ОТЧЕТАМ
 #       ПРОТЕСТИТЬ ТЕСТ НА ПАРСЕР
-#           ДОПИСАТЬ МЕТА-ДАННЫЕ ПО МК
 #       ДОПИСАТЬ ТЕСТ ЯДРА РАСЧЕТОВ
 #       заменить assert на raise exception там, где это нужно
 
