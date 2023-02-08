@@ -144,6 +144,8 @@ class CalculationConstructorPage(BasePage):
     def calculate_random_case(self):
         with allure.step("Подсчет количества МК на стенде"):
             mb_num = CalculationConstructorPage.mb_counter(self)
+            if mb_num == 0:
+                raise Exception("МК на стенде отсутсвуют, невозможно выбрать кейс")
         # TODO: а если в консолидации всего один кейс и он в черном списке?
         with allure.step("Поиск подходящего кейса среди случайных"):
             for i in range(1, mb_num+1):
@@ -162,21 +164,32 @@ class CalculationConstructorPage(BasePage):
                     case_counter = 0
                     for j in range(1, 36):
                         # TODO: прописать локатор для кейса
-                        if self.visible_element_present('case_locator'):
+                        case_locator = (By.CSS_SELECTOR,
+                                        '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div > di'
+                                        'v > div> div > div.MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-entered.c'
+                                        'ss-c4sutr > div > div > div > div > ul > div:nth-child(' + str(j) +
+                                        ') > div')
+                        if self.visible_element_present(case_locator):
                             case_counter += 1
                         else:
                             break
                 with allure.step("Выбор случайного кейса"):
                     case_num = str(randint(1, case_counter + 1))
-                    case_locator = (By.CSS_SELECTOR,'' + case_num + ''
-                                    )
-                    case_name = self.text_of_visible_element('case_locator')
+                    case_name_locator = (By.CSS_SELECTOR,
+                                         '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div'
+                                         ' > div > div> div > div.MuiCollapse-root.MuiCollapse-vertical.MuiCollapse'
+                                         '-entered.css-c4sutr > div > div > div > div > ul > div:nth-child('
+                                         + str(case_num) + ') > div > li > span')
+                    case_name = self.text_of_visible_element(case_name_locator)
                     if case_name in CCFiles.cases_black_list:
-                        print(f'Кейс с названием {case_name} находится в черном списке, подбираю другой...')
                         continue
                     else:
-                        self.click_on_visible_element('case_locator')
+                        self.click_on_visible_element(case_locator)
                         break
             with allure.step("Выбор первых в списке ФЭМ и макропараметров"):
-                # TODO: остановился тут
-                pass
+                self.click_on_visible_element(CCLocators.open_FEM_menu_button)
+                self.click_on_visible_element(CCLocators.first_FEM)
+                self.click_on_visible_element(CCLocators.open_Macro_menu_button)
+                self.click_on_visible_element(CCLocators.first_Macro)
+            with allure.step("Старт расчета"):
+                self.click_on_visible_element(CCLocators.start_calculation_button)
