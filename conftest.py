@@ -1,3 +1,4 @@
+import allure
 import pytest
 import subprocess
 from config import main_dir, ffmpeg_path, record_video_mode, current_stand
@@ -47,6 +48,8 @@ def record_video(request):
             if (tests_failed_during_module == 0) and (mode == 'failed'):
                 # Remove video file if test passed
                 remove(outfile)
+            else:
+                allure.attach.file(outfile, attachment_type=allure.attachment_type.MP4)
 
 
 # Функция для входа на стенд. Запускает модуль "Экономика" по адресу стенда, проходит KeyCloak
