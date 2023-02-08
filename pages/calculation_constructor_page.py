@@ -66,45 +66,36 @@ class CalculationConstructorPage(BasePage):
         mb_num = CalculationConstructorPage.mb_counter(self)
         case_counter = 0
         # Проходимся по всем МК
-        with allure.step("Проходимся по всем МК"):
-            for i in range(1, mb_num + 1):
-                mb_locator = (By.CSS_SELECTOR,
-                              '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div > div > div.Mu'
-                              'iGrid-root.css-rfnosa > div:nth-child(' + str(i + 1) + ') > div > div > p')
-                if self.text_of_visible_element(mb_locator) == mb_name:
-                    with allure.step(f"МК {mb_name} найдена, раскрываем список ее кейсов"):
-                        self.click_on_visible_element((By.CSS_SELECTOR,
-                                                       '#root > div.MuiBox-root.css-18cq61h > div:nth-child(3) > div > '
-                                                       'div > div:nth-child(1) > div > div > div > div.MuiGrid-root.css'
-                                                       '-rfnosa > div:nth-child(' + str(i + 1) +
-                                                       ') > div > div:nth-child(2) > svg'))
-                    if not self.visible_element_present((By.CSS_SELECTOR,
-                                                         '#root > div.MuiBox-root.css-18cq61h > div:nth-child(3) > div '
-                                                         '> div > div:nth-child(1) > div > div > div > div.MuiGrid-root'
-                                                         '.css-rfnosa > div.MuiPaper-root.MuiPaper-elevation.MuiPaper-r'
-                                                         'ounded.MuiPaper-elevation1.MuiAccordion-root.MuiAccordion-rou'
-                                                         'nded.Mui-expanded.MuiAccordion-gutters.css-1wsq4x7 > div.MuiC'
-                                                         'ollapse-root.MuiCollapse-vertical.MuiCollapse-entered.css-c4s'
-                                                         'utr > div > div > div > div > ul > div:nth-child(1) > div > l'
-                                                         'i > span')):
-                        assert False, "Не найден кейс, похоже, что загрузилась пустая МК"
-                    with allure.step("Проходимся по всем кейсам в МК"):
-                        for j in range(1, len(mb_list)):
-                            case_locator = (By.CSS_SELECTOR,
-                                            '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div '
-                                            '> div > div> div > div.MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-e'
-                                            'ntered.css-c4sutr > div > div > div > div > ul > div:nth-child(' +
-                                            str(j) + ') > div > li > span')
-                            # Сравниваем название кейса с названием из списка
-                            for k in range(len(mb_list)):
-                                case_name = self.text_of_visible_element(case_locator)
-                                if case_name == mb_list[k]:
-                                    case_counter += 1
-                    with allure.step("Сверка посчитанных кейсов с ожидаемым числом"):
+        for i in range(1, mb_num + 1):
+            mb_locator = (By.CSS_SELECTOR,
+                          '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div > div > div.MuiGri'
+                          'd-root.css-rfnosa > div:nth-child(' + str(i + 1) + ') > div > div > p')
+            if self.text_of_visible_element(mb_locator) == mb_name:
+                self.click_on_visible_element((By.CSS_SELECTOR,
+                                               '#root > div.MuiBox-root.css-18cq61h > div:nth-child(3) > div > div > di'
+                                               'v:nth-child(1) > div > div > div > div.MuiGrid-root.css-rfnosa > div:nt'
+                                               'h-child(' + str(i + 1) + ') > div > div:nth-child(2) > svg'))
+                if not self.visible_element_present((By.CSS_SELECTOR,
+                                                     '#root > div.MuiBox-root.css-18cq61h > div:nth-child(3) > div > di'
+                                                     'v > div:nth-child(1) > div > div > div > div.MuiGrid-root.css-rfn'
+                                                     'osa > div.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPa'
+                                                     'per-elevation1.MuiAccordion-root.MuiAccordion-rounded.Mui-expande'
+                                                     'd.MuiAccordion-gutters.css-1wsq4x7 > div.MuiCollapse-root.MuiColl'
+                                                     'apse-vertical.MuiCollapse-entered.css-c4sutr > div > div > div > '
+                                                     'div > ul > div:nth-child(1) > div > li > span')):
+                    assert False, "Не найден кейс, похоже, что загрузилась пустая МК"
+                for j in range(1, len(mb_list)):
+                    for k in range(len(mb_list)):
+                        case_locator = (By.CSS_SELECTOR,
+                                        '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div > di'
+                                        'v > div> div > div.MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-entered.c'
+                                        'ss-c4sutr > div > div > div > div > ul > div:nth-child(' + str(j) +
+                                        ') > div > li > span')
+                        case_name = self.text_of_visible_element(case_locator)
+                        if case_name == mb_list[k]:
+                            case_counter += 1
                         if case_counter != len(mb_list):
-                            print(case_name)
-                            # assert False, "Потерян один из кейсов"
-
+                            assert False, "Потерян один из кейсов"
                         elif case_counter == len(mb_list):
                             # Закрываем список кейсов
                             self.click_on_visible_element((By.CSS_SELECTOR,
