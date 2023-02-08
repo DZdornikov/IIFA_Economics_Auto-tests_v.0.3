@@ -35,9 +35,10 @@ class TestCalculationConstructor:
     @allure.description(f"Тест запустил - {tester_name}")
     @pytest.mark.calculacion_constructor
     @pytest.mark.parametrize('mb_name', [CCFiles.MB_GEE_filename, CCFiles.MB_KUV_filename, CCFiles.MB_CNT_filename,
-                                         CCFiles.MB_YUUNG_filename, CCFiles.MB_YUUNG_BUR_filename,
-                                         CCFiles.MB_YAG_filename])
+                                         CCFiles.MB_YUUNG_filename, CCFiles.MB_YAG_filename,
+                                         CCFiles.MB_YUUNG_BUR_filename])
     def test_parser(self, sign_in_to_stand, mb_name):
+        # TODO: Снова падает, непонятно как отладить
         with allure.step("Прохождение авторизации на стенде"):
             page = sign_in_to_stand
         with allure.step("Переход в конструктор расчетов"):

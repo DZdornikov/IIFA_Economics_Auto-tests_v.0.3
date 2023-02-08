@@ -28,5 +28,8 @@
       `Также данную команду можно прописать в конфигурацию запускатора pycharm`
    2. allure serve allure-results                    `Создает отчет по результатам тестов`
 3. Второй путь (возможно, правильный, так как сохраняет историю отчетов):
-   1. allure generate --clean
-   2. allure open
+      1. pytest {тут может быть конкретный тест/файл с тестом/ничего} --alluredir allure-results
+      2. копируем в allure-results папку "history" из корневой директории
+      3. allure generate --clean
+      4. Копируем содержимое из папки allure-report в папку history в корневой директории
+      5. allure open

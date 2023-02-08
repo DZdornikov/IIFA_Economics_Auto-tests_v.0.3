@@ -25,6 +25,7 @@ def driver():
 # Функция для автозаписи и сохранения видео
 @pytest.fixture(scope="function", autouse=True)
 def record_video(request):
+    # TODO: теряет видео на моменте прикрепления, если переключить на режим "failed" и запускать сразу всем скопом
     """Fixture records video for all tests and saves it if test failed"""
     if 'novideo' in request.keywords:
         yield

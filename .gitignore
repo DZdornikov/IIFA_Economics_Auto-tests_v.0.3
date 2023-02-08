@@ -12,3 +12,5 @@
 /allure_report_data/
 /tests/allure_report_data/
 /.pytest_cache/
+/tests/allure-results/
+/tests/allure-report/
