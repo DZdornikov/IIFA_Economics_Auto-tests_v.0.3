@@ -61,53 +61,60 @@ class CalculationConstructorPage(BasePage):
     # Функция, которая принимает название МК и список его кейсов. Проходится по всем МК, находит нужную, открывает,
     # считает кейсы, сверяет их число с ожидаемым
     def mb_checker(self, mb_name, mb_list):
-        # TODO: ИНТЕГРИРОВАТЬ СТЕПЫ АЛЛЮРА БЕЗ КОСТЫЛЕЙ
         if not self.visible_element_present(CCLocators.first_MB):
             assert False, "МастерКниги отсутствуют на стенде"
         mb_num = CalculationConstructorPage.mb_counter(self)
         case_counter = 0
         # Проходимся по всем МК
-        for i in range(1, mb_num + 1):
-            mb_locator = (By.CSS_SELECTOR,
-                          '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div > div > div.MuiGri'
-                          'd-root.css-rfnosa > div:nth-child(' + str(i + 1) + ') > div > div > p')
-            # Ищем конкретную МК
-            if self.text_of_visible_element(mb_locator) == mb_name:
-                # Раскрываем нужную МК
-                self.click_on_visible_element((By.CSS_SELECTOR,
-                                               '#root > div.MuiBox-root.css-18cq61h > div:nth-child(3) > div > div > di'
-                                               'v:nth-child(1) > div > div > div > div.MuiGrid-root.css-rfnosa > div:nt'
-                                               'h-child(' + str(i + 1) + ') > div > div:nth-child(2) > svg'))
+        with allure.step("Проходимся по всем МК"):
+            for i in range(1, mb_num + 1):
+                mb_locator = (By.CSS_SELECTOR,
+                              '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div > div > div.Mu'
+                              'iGrid-root.css-rfnosa > div:nth-child(' + str(i + 1) + ') > div > div > p')
+                if self.text_of_visible_element(mb_locator) == mb_name:
+                    with allure.step(f"МК {mb_name} найдена, раскрываем список ее кейсов"):
+                        self.click_on_visible_element((By.CSS_SELECTOR,
+                                                       '#root > div.MuiBox-root.css-18cq61h > div:nth-child(3) > div > '
+                                                       'div > div:nth-child(1) > div > div > div > div.MuiGrid-root.css'
+                                                       '-rfnosa > div:nth-child(' + str(i + 1) +
+                                                       ') > div > div:nth-child(2) > svg'))
+                    if not self.visible_element_present((By.CSS_SELECTOR,
+                                                         '#root > div.MuiBox-root.css-18cq61h > div:nth-child(3) > div '
+                                                         '> div > div:nth-child(1) > div > div > div > div.MuiGrid-root'
+                                                         '.css-rfnosa > div.MuiPaper-root.MuiPaper-elevation.MuiPaper-r'
+                                                         'ounded.MuiPaper-elevation1.MuiAccordion-root.MuiAccordion-rou'
+                                                         'nded.Mui-expanded.MuiAccordion-gutters.css-1wsq4x7 > div.MuiC'
+                                                         'ollapse-root.MuiCollapse-vertical.MuiCollapse-entered.css-c4s'
+                                                         'utr > div > div > div > div > ul > div:nth-child(1) > div > l'
+                                                         'i > span')):
+                        assert False, "Не найден кейс, похоже, что загрузилась пустая МК"
+                    with allure.step("Проходимся по всем кейсам в МК"):
+                        for j in range(1, len(mb_list)):
+                            case_locator = (By.CSS_SELECTOR,
+                                            '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div '
+                                            '> div > div> div > div.MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-e'
+                                            'ntered.css-c4sutr > div > div > div > div > ul > div:nth-child(' +
+                                            str(j) + ') > div > li > span')
+                            # Сравниваем название кейса с названием из списка
+                            for k in range(len(mb_list)):
+                                case_name = self.text_of_visible_element(case_locator)
+                                if case_name == mb_list[k]:
+                                    case_counter += 1
+                    with allure.step("Сверка посчитанных кейсов с ожидаемым числом"):
+                        if case_counter != len(mb_list):
+                            print(case_name)
+                            # assert False, "Потерян один из кейсов"
 
-                if not self.visible_element_present((By.CSS_SELECTOR,
-                                                     '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > d'
-                                                     'iv > div > div > div> div > div.MuiCollapse-root.MuiCollapse-vert'
-                                                     'ical.MuiCollapse-entered.css-c4sutr > div > div > div > div > ul '
-                                                     '> div:nth-child(1)')):
-                    assert False, "Не найден кейс, похоже, что загрузилась пустая МК"
-                # Проходимся по кейсам
-                for j in range(1, len(mb_list)):
-                    case_locator = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > d'
-                                                     'iv > div > div > div> div > div.MuiCollapse-root.MuiCollapse-vert'
-                                                     'ical.MuiCollapse-entered.css-c4sutr > div > div > div > div > ul '
-                                                     '> div:nth-child(' + str(j + 1) + ') > div > li > span')
-                    # Сравниваем название кейса с названием из списка
-                    for k in range(len(mb_list)):
-                        if self.text_of_visible_element(case_locator) == mb_list[k]:
-                            case_counter += 1
-
-                if case_counter != len(mb_list):
-                    assert False, "Потерян один из кейсов"
-                elif case_counter == len(mb_list):
-                    # Закрываем список кейсов
-                    self.click_on_visible_element((By.CSS_SELECTOR,
-                                                   '#root > div.MuiBox-root.css-18cq61h > div:nth-child(3) > div > div '
-                                                   '> div:nth-child(1) > div > div > div > div.MuiGrid-root.css-rfnosa '
-                                                   '> div:nth-child(' + str(i + 1) +
-                                                   ') > div > div:nth-child(2) > svg'))
-                    pass
-            else:
-                continue
+                        elif case_counter == len(mb_list):
+                            # Закрываем список кейсов
+                            self.click_on_visible_element((By.CSS_SELECTOR,
+                                                           '#root > div.MuiBox-root.css-18cq61h > div:nth-child(3) > di'
+                                                           'v > div > div:nth-child(1) > div > div > div > div.MuiGrid-'
+                                                           'root.css-rfnosa > div:nth-child(' + str(i + 1) +
+                                                           ') > div > div:nth-child(2) > svg'))
+                            pass
+                else:
+                    continue
 
     # Функция, которая принимает название МК и максимальный таймер ожидания. Загружает МК на стенд и запускает проверки
     # по всем консолидациям

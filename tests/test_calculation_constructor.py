@@ -29,14 +29,14 @@ class TestCalculationConstructor:
             sleep(4)    # МК появляются не мгновенно
             CCPage.delete_all_masterbooks(page)
 
-    @allure.feature("Парсер МК")
+    @allure.feature("Загрузка МК на фронт")
     @allure.story("Загрузка всех имеющихся МК на стенд и проверка, что все загрузилось корректно")
     @allure.severity(allure.severity_level.BLOCKER)
     @pytest.mark.calculacion_constructor
-    @pytest.mark.parametrize('mb_name', [CCFiles.MB_GEE_filename, CCFiles.MB_KUV_filename, CCFiles.MB_CNT_filename,
-                                         CCFiles.MB_YUUNG_filename, CCFiles.MB_YUUNG_BUR_filename,
-                                         CCFiles.MB_YAG_filename])
-    def test_parser(self, sign_in_to_stand, mb_name):
+    # @pytest.mark.parametrize('mb_name', [CCFiles.MB_GEE_filename, CCFiles.MB_KUV_filename, CCFiles.MB_CNT_filename,
+    #                                      CCFiles.MB_YUUNG_filename, CCFiles.MB_YUUNG_BUR_filename,
+    #                                      CCFiles.MB_YAG_filename])
+    def test_parser(self, sign_in_to_stand, mb_name=CCFiles.MB_KUV_filename):
         with allure.step("Прохождение авторизации на стенде"):
             page = sign_in_to_stand
         with allure.step("Переход в конструктор расчетов"):
@@ -45,7 +45,7 @@ class TestCalculationConstructor:
             CCPage.is_page_calculation_page(page)
         with allure.step("Очистка мастер-книг со стенда"):
             CCPage.delete_all_masterbooks(page)
-        with allure.step("Загрузка мастер-книги на стенд"):
+        with allure.step(f'Загрузка мастер-книги на стенд'):
             CCPage.upload_mb(page, mb_name, timer=300)
 
     @allure.feature("Ядро расчетов, выгрузка отчета")
