@@ -70,7 +70,7 @@ def sign_in_to_stand(driver, stand=current_stand):
 #         remove(path.join(video_reports_dir, f))
 
 
-# Функция для очистки папки allure_report_data. ПОСЛЕДСТВИЯ НЕОБРАТИМЫ!!!
+# Функция для очистки папки allure-results. ПОСЛЕДСТВИЯ НЕОБРАТИМЫ!!!
 # Запуск только в PyCharm. Нужно снять комментарий, запустить, закомментировать. Если не закомментировать, то будет
 # очень плохо
 # @pytest.mark.novideo
