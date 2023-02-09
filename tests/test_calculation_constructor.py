@@ -3,7 +3,11 @@ import pytest
 from config import tester_name, current_stand
 from pages.calculation_constructor_page import CalculationConstructorPage as CCPage
 from files.files_list import CalculationConstructorFilesList as CCFiles
+from conftest import init_logger
 from time import sleep
+
+
+log_name = init_logger()
 
 
 class TestCalculationConstructor:

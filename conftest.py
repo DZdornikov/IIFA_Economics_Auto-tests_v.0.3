@@ -1,11 +1,12 @@
 import allure
 import pytest
 import subprocess
-from config import main_dir, ffmpeg_path, record_video_mode, current_stand
+import logging
+from config import main_dir, ffmpeg_path, record_video_mode, current_stand, logger_level
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from os import listdir, remove, path
+from os import listdir, remove, path, getcwd
 from shutil import copy
 from datetime import datetime as dt
 from pages.sign_in_page import SignInPage
@@ -29,6 +30,8 @@ def driver():
 @pytest.fixture(scope="function", autouse=True)
 def record_video(request):
     # TODO: теряет видео на моменте прикрепления, если переключить на режим "failed" и запускать сразу всем скопом
+
+    # TODO: а может стоит не сохранять в video_reports, а сразу крепить и чистить?
     """Fixture records video for all tests and saves it if test failed"""
     if 'novideo' in request.keywords:
         yield
@@ -93,4 +96,23 @@ def test_append_report_history():
         copy(path.join(history_in_allure_rep, f), history_in_allure_res)
 
 
+def init_logger(level=logger_level, log_dir_name=fr"{getcwd}/logs",
+                name=fr"{str(dt.now().day)}.{str(dt.now().month)}.{str(dt.now().year)} "
+                     fr"{str(dt.now().hour)} - {str(dt.now().minute)}"):
+    logger = logging.getLogger(name)
+    form = "%(asctime)s - %(levelname)s - %(funcName)s: %(lineno)d - %(message)s"
+    logger.setLevel(level)
 
+    # sh = logging.StreamHandler()
+    # sh.setFormatter(logging.Formatter(form))
+    # sh.setLevel(level)
+
+    fh = logging.FileHandler(filename=f"{log_dir_name}/{name}.txt", encoding="UTF-8")
+    fh.setFormatter(logging.Formatter(form))
+    fh.setLevel(level)
+
+    # logger.addHandler(sh)
+    logger.addHandler(fh)
+
+    logger.debug(f"Logger {name} was initialized")
+    return name
