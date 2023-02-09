@@ -92,5 +92,6 @@ def test_append_report_history():
         copy(path.join(history_in_allure_rep, f), history_in_main_dir)
         copy(path.join(history_in_allure_rep, f), history_in_allure_res)
 
-
+def init_logger():
+    pass
 
