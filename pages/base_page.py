@@ -19,14 +19,14 @@ class BasePage:
         try:
             return Wait(self.driver, 5).until((ec.visibility_of_element_located(locator)))
         except TimeoutException:
-            assert False, "Элемент не найден"
+            raise Exception("Элемент не найден")
 
     # Функция, которая проверяет наличие скрытого элемента на странице и возвращает его, если он есть
     def hidden_element(self, locator):
         try:
             return Wait(self.driver, 5).until((ec.presence_of_element_located(locator)))
         except TimeoutException:
-            assert False, "Элемент не найден"
+            raise Exception("Элемент не найден")
 
     def visible_element_present(self, locator):
         try:
@@ -55,20 +55,20 @@ class BasePage:
         try:
             element = Wait(self.driver, 5).until((ec.visibility_of_element_located(locator)))
             if not ec.element_to_be_clickable(element):
-                assert False, "Элемент не кликабельный"
+                raise Exception("Элемент не кликабельный")
             return element.click()
         except TimeoutException:
-            assert False, "Элемент не найден"
+            raise Exception("Элемент не найден")
 
     # Ищет скрытый элемент, проверяет кликабельный ли он, если да, то кликает. При ошибке выдает assertion error
     def click_on_hidden_element(self, locator):
         try:
             element = Wait(self.driver, 5).until((ec.presence_of_element_located(locator)))
             if not ec.element_to_be_clickable(element):
-                assert False, "Элемент не кликабельный"
+                raise Exception("Элемент не кликабельный")
             return element.click()
         except TimeoutException:
-            assert False, "Элемент не найден"
+            raise Exception("Элемент не найден")
 
     # Ищет видимый элемент, отправляет в него аргумент. При ошибке выдает assertion error
     def send_keys_to_visible_element(self, locator, keys):
@@ -76,7 +76,7 @@ class BasePage:
             element = Wait(self.driver, 5).until((ec.visibility_of_element_located(locator)))
             return element.send_keys(keys)
         except TimeoutException:
-            assert False, "Элемент не найден"
+            raise Exception("Элемент не найден")
 
     # Ищет скрытый элемент, отправляет в него аргумент. При ошибке выдает assertion error
     def send_keys_to_hidden_element(self, locator, keys):
@@ -84,7 +84,7 @@ class BasePage:
             element = Wait(self.driver, 5).until((ec.presence_of_element_located(locator)))
             return element.send_keys(keys)
         except TimeoutException:
-            assert False, "Элемент не найден"
+            raise Exception("Элемент не найден")
 
     # Ищет видимый элемент, возвращает его текст. При ошибке выдает assertion error
     def text_of_visible_element(self, locator):
@@ -92,7 +92,7 @@ class BasePage:
             element = Wait(self.driver, 5).until((ec.visibility_of_element_located(locator)))
             return element.text
         except TimeoutException:
-            assert False, "Элемент не найден"
+            raise Exception("Элемент не найден")
 
     # Ищет скрытый элемент, возвращает его текст. При ошибке выдает assertion error
     def text_of_hidden_element(self, locator):
@@ -100,7 +100,7 @@ class BasePage:
             element = Wait(self.driver, 5).until((ec.presence_of_element_located(locator)))
             return element.text
         except TimeoutException:
-            assert False, "Элемент не найден"
+            raise Exception("Элемент не найден")
 
     # Ищет видимый элемент, возвращает его аттрибут. При ошибке выдает assertion error
     def attribute_of_visible_element(self, locator, attribute):
@@ -108,7 +108,7 @@ class BasePage:
             element = Wait(self.driver, 5).until((ec.visibility_of_element_located(locator)))
             return element.get_attribute(attribute)
         except TimeoutException:
-            assert False, "Элемент не найден"
+            raise Exception("Элемент не найден")
 
     # Ищет скрытый элемент, возвращает его аттрибут. При ошибке выдает assertion error
     def attribute_of_hidden_element(self, locator, attribute):
@@ -116,4 +116,4 @@ class BasePage:
             element = Wait(self.driver, 5).until((ec.presence_of_element_located(locator)))
             return element.get_attribute(attribute)
         except TimeoutException:
-            assert False, "Элемент не найден"
+            raise Exception("Элемент не найден")

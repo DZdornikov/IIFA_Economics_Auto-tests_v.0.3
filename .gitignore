@@ -13,3 +13,5 @@
 /tests/allure-results/
 /.pytest_cache/
 /.pytest_cache/
+/tests/allure-results/
+/tests/allure-report/

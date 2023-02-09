@@ -6,12 +6,14 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from os import listdir, remove, path
+from shutil import copy
 from datetime import datetime as dt
 from pages.sign_in_page import SignInPage
 
 # Переменные
 video_reports_dir = fr'{main_dir}\video_reports'                            # Путь к директории видео тестов
-# allure_report_data_dir = fr'{main_dir}\tests\allure_report_data'            # Путь к директории данных для allure
+allure_report_dir = fr'{main_dir}\tests\allure-report'
+allure_results_dir = fr'{main_dir}\tests\allure-results'
 
 
 # Set_up & Tear_down функция. Запускает браузер и тушит его в самом конце теста
@@ -26,6 +28,7 @@ def driver():
 # Функция для автозаписи и сохранения видео
 @pytest.fixture(scope="function", autouse=True)
 def record_video(request):
+    # TODO: теряет видео на моменте прикрепления, если переключить на режим "failed" и запускать сразу всем скопом
     """Fixture records video for all tests and saves it if test failed"""
     if 'novideo' in request.keywords:
         yield
@@ -69,11 +72,25 @@ def sign_in_to_stand(driver, stand=current_stand):
 #     for f in listdir(video_reports_dir):
 #         remove(path.join(video_reports_dir, f))
 
+# Функция удаляет устаревшую историю прогона тестов и заменяет на новую везде, где нужно
+@pytest.mark.novideo
+@pytest.fixture(scope="function", autouse=True)
+def test_append_report_history():
+    history_in_allure_res = fr"{allure_results_dir}\history"
+    history_in_allure_rep = fr"{allure_report_dir}\history"
+    history_in_main_dir = fr"{main_dir}\history"
 
-# Функция для очистки папки allure-results. ПОСЛЕДСТВИЯ НЕОБРАТИМЫ!!!
-# Запуск только в PyCharm. Нужно снять комментарий, запустить, закомментировать. Если не закомментировать, то будет
-# очень плохо
-# @pytest.mark.novideo
-# def test_clear_allure_dir():
-#     for f in listdir(allure_report_data_dir):
-#         remove(path.join(allure_report_data_dir, f))
+    # Очистка устаревшей истории
+    for f in listdir(history_in_allure_res):
+        remove(path.join(history_in_allure_res, f))
+
+    for f in listdir(history_in_main_dir):
+        remove(path.join(history_in_main_dir, f))
+
+    # Копирование обновленной истории
+    for f in listdir(history_in_allure_rep):
+        copy(path.join(history_in_allure_rep, f), history_in_main_dir)
+        copy(path.join(history_in_allure_rep, f), history_in_allure_res)
+
+
+

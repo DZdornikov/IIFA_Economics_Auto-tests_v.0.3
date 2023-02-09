@@ -71,12 +71,13 @@ class CalculationConstructorPage(BasePage):
                           '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div > div > div.MuiGri'
                           'd-root.css-rfnosa > div:nth-child(' + str(i + 1) + ') > div > div > p')
             if self.text_of_visible_element(mb_locator) == mb_name:
-                self.click_on_visible_element((By.CSS_SELECTOR,
-                                               '#root > div.MuiBox-root.css-18cq61h > div:nth-child(3) > div > div > di'
-                                               'v:nth-child(1) > div > div > div > div.MuiGrid-root.css-rfnosa > div:nt'
-                                               'h-child(' + str(i + 1) + ') > div > div:nth-child(2) > svg'))
+                mb_opener_locator = (By.CSS_SELECTOR,
+                                     '#root > div.MuiBox-root.css-18cq61h > div:nth-child(3) > div > div > div:nth-chil'
+                                     'd(1) > div > div > div > div.MuiGrid-root.css-rfnosa > div:nth-child(' +
+                                     str(i + 1) + ') > div > div:nth-child(2) > svg')
+                self.click_on_visible_element(mb_opener_locator)
                 if not self.visible_element_present((By.CSS_SELECTOR,
-                                                     '#root > div.MuiBox-root.css-18cq61h > div:nth-child(3) > div > di'
+                                                     '#root > div > div:nth-child(3) > div > di'
                                                      'v > div:nth-child(1) > div > div > div > div.MuiGrid-root.css-rfn'
                                                      'osa > div.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPa'
                                                      'per-elevation1.MuiAccordion-root.MuiAccordion-rounded.Mui-expande'
@@ -98,11 +99,7 @@ class CalculationConstructorPage(BasePage):
                             assert False, "Потерян один из кейсов"
                         elif case_counter == len(mb_list):
                             # Закрываем список кейсов
-                            self.click_on_visible_element((By.CSS_SELECTOR,
-                                                           '#root > div.MuiBox-root.css-18cq61h > div:nth-child(3) > di'
-                                                           'v > div > div:nth-child(1) > div > div > div > div.MuiGrid-'
-                                                           'root.css-rfnosa > div:nth-child(' + str(i + 1) +
-                                                           ') > div > div:nth-child(2) > svg'))
+                            self.click_on_visible_element(mb_opener_locator)
                             pass
                 else:
                     continue
@@ -127,56 +124,16 @@ class CalculationConstructorPage(BasePage):
         else:
             assert False, "Неизвестное название МК"
 
-        with allure.step("Подсчет МК на стенде до начала загрузки"):
-            mb_num = CalculationConstructorPage.mb_counter(self)
-        with allure.step("Загрузка файла и ожидание его появления на фронте"):
-            self.send_keys_to_hidden_element(CCLocators.upload_MB, file)
-            for i in range(timer // 6):
-                new_mb_num = CalculationConstructorPage.mb_counter(self)
-                if new_mb_num > mb_num:
-                    break
-        with allure.step("Проверка что при загрузке ничего не потерялось"):
-            for j in range(len(cons_list)):
-                CalculationConstructorPage.mb_checker(self, cons_list[j], cases_list[j])
+        mb_num = CalculationConstructorPage.mb_counter(self)
+        self.send_keys_to_hidden_element(CCLocators.upload_MB, file)
+        for i in range(timer // 6):
+            new_mb_num = CalculationConstructorPage.mb_counter(self)
+            if new_mb_num > mb_num:
+                break
+        for j in range(len(cons_list)):
+            CalculationConstructorPage.mb_checker(self, cons_list[j], cases_list[j])
 
     # Функция выбирает случайный кейс, первые попавшиеся ФЭМ и Макру, производит расчет, скачивает полученный отчет и
     # проверяет скачался ли файл
     def calculate_random_case(self):
-        with allure.step("Подсчет количества МК на стенде"):
-            mb_num = CalculationConstructorPage.mb_counter(self)
-        # TODO: а если в консолидации всего один кейс и он в черном списке?
-        with allure.step("Поиск подходящего кейса среди случайных"):
-            for i in range(1, mb_num+1):
-                with allure.step("Выбор случайной консолидации"):
-                    mb_num = randint(1, mb_num)
-                    mb_locat = (By.CSS_SELECTOR,
-                                '#root > div.MuiBox-root.css-18cq61h > div:nth-child(3) > div > div > div:nth-child(1) '
-                                '> div > div > div > div.MuiGrid-root.css-rfnosa > div:nth-child(' + str(mb_num + 1) +
-                                ') > div > div:nth-child(2) > svg')
-                    mb_name = self.text_of_visible_element(mb_locat)
-                    if mb_name in CCFiles.consolidations_black_list:
-                        continue
-                with allure.step(f"Раскрытие консолидации с названием {mb_name}"):
-                    self.click_on_visible_element(mb_locat)
-                with allure.step("Подсчет кейсов в консолидации"):
-                    case_counter = 0
-                    for j in range(1, 36):
-                        # TODO: прописать локатор для кейса
-                        if self.visible_element_present('case_locator'):
-                            case_counter += 1
-                        else:
-                            break
-                with allure.step("Выбор случайного кейса"):
-                    case_num = str(randint(1, case_counter + 1))
-                    case_locator = (By.CSS_SELECTOR,'' + case_num + ''
-                                    )
-                    case_name = self.text_of_visible_element('case_locator')
-                    if case_name in CCFiles.cases_black_list:
-                        print(f'Кейс с названием {case_name} находится в черном списке, подбираю другой...')
-                        continue
-                    else:
-                        self.click_on_visible_element('case_locator')
-                        break
-            with allure.step("Выбор первых в списке ФЭМ и макропараметров"):
-                # TODO: остановился тут
-                pass
+        pass
