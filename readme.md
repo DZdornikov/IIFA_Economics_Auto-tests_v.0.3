@@ -29,7 +29,7 @@
    2. allure serve allure-results                    `Создает отчет по результатам тестов`
 3. Второй путь (возможно, правильный, так как сохраняет историю отчетов):
       1. pytest {тут может быть конкретный тест/файл с тестом/ничего} --alluredir allure-results
-      2. копируем в allure-results папку "history" из корневой директории
-      3. allure generate --clean
-      4. Копируем содержимое из папки allure-report в папку history в корневой директории
+      2. запускаем скрипт test_append_report_history в conftest.py
+      3. открываем папку tests в терминале
+      4. allure generate --clean
       5. allure open
