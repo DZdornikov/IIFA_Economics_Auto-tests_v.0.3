@@ -2,20 +2,22 @@ from pages.base_page import BasePage  # Для использования ада
 from locators.guide_locators import GuideLocators as GL
 from time import sleep  # Для ожиданий
 from selenium.webdriver.common.by import By
+from config import current_stand
 
 # URL страниц отчетов
-genrestest = 'http://genrestest.nntc.pro/economics/guide'
+guide_current_page = current_stand + 'guide'
 
 
 class GuidePage(BasePage):
 
+    # ТУТ ПОМЕНЯЛ НАЗВАНИЕ С is_page_calculation_page на is_page_guide_page
     # Функция для проверки корректная ли страница открыта
-    def is_page_calculation_page(self):
-        assert self.check_url(genrestest), \
+    def is_page_guide_page(self):
+        assert self.check_url(guide_current_page), \
             "Открыта страница, отличная от Справочников"
 
     def move_to_guide_page(self):
-        assert self.check_url(genrestest), "Открыта страница, отличная от стенда экономики"
+        assert self.check_url(current_stand), "Открыта страница, отличная от стенда экономики"
         self.click_on_visible_element(GL.move_to_guide_page)
 
     def create_guide_group(self):

@@ -16,7 +16,7 @@ class TestGuideUploadRigDuration:
     def test_rig_duration(self, sign_in_to_stand):
         with allure.step("Прохождение авторизации на стенде"):
             sign_in = sign_in_to_stand
-            if not GP.is_page_calculation_page(sign_in):
+            if not GP.is_page_guide_page(sign_in):
                 GP.move_to_guide_page(sign_in)
         with allure.step("Создание и открытие нужного справочника"):
             GP.search_guide_window(sign_in)
