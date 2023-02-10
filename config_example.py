@@ -1,5 +1,4 @@
 from os import path
-from logging import INFO, CRITICAL, DEBUG, ERROR, WARNING                               # Для выбора уровня логирования
 
 # СТРОКИ, КОТОРЫЕ ЛУЧШЕ НЕ ТРОГАТЬ
 
@@ -19,4 +18,3 @@ ffmpeg_path = fr'{main_dir}\путь к ffmpeg.exe'                             
 record_video_mode = "all"                                   # Режим записи видео. Поддерживаемые: 'all'/'none'/'failed'
 downloads_dir = fr"C:\Users\dpodolny\Downloads"                                         # Путь к папке загрузок
 current_stand = genrestest                                                              # Выбор стенда для работы
-logger_level = DEBUG                                                                    # Уровень логирования

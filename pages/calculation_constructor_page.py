@@ -5,7 +5,7 @@ from locators.calculation_constructor_locators import CalculationConstructorLoca
 from files.files_list import CalculationConstructorFilesList as CCFiles
 from selenium.webdriver.common.by import By
 from time import sleep
-from random import randint
+# from random import randint
 
 # Переменные
 calculation_current_stand = current_stand + "calculation-constructor"

@@ -12,6 +12,7 @@ log_name = init_logger()
 
 class TestCalculationConstructor:
 
+    @allure.title("Удаление МК с фронта")
     @allure.feature("Удаление МК с фронта")
     @allure.story("Удаление всех имеющихся на стенде МК")
     @allure.severity(allure.severity_level.CRITICAL)
@@ -28,6 +29,7 @@ class TestCalculationConstructor:
             sleep(4)    # МК появляются не мгновенно
             CCPage.delete_all_masterbooks(page)
 
+    @allure.title("Тест загрузки МК")
     @allure.feature("Загрузка МК на фронт")
     @allure.story("Загрузка всех имеющихся МК на стенд и проверка, что все загрузилось корректно")
     @allure.severity(allure.severity_level.BLOCKER)
@@ -49,6 +51,7 @@ class TestCalculationConstructor:
         with allure.step(f'Загрузка мастер-книги на стенд'):
             CCPage.upload_mb(page, mb_name, timer=300)
 
+    @allure.title("Расчет случайного кейса")
     @allure.feature("Ядро расчетов, выгрузка отчета")
     @allure.story("Выбор случайной МК, случайного кейса и расчет с первыми попавшимися макрой и ФЭМ. "
                   "Переход в отчеты и скачивание файла.")
