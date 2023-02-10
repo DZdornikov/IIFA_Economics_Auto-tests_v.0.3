@@ -10,7 +10,6 @@ guide_current_page = current_stand + 'guide'
 
 class GuidePage(BasePage):
 
-    # ТУТ ПОМЕНЯЛ НАЗВАНИЕ С is_page_calculation_page на is_page_guide_page
     # Функция для проверки корректная ли страница открыта
     def is_page_guide_page(self):
         assert self.check_url(guide_current_page), \
@@ -21,16 +20,14 @@ class GuidePage(BasePage):
         self.click_on_visible_element(GL.move_to_guide_page)
 
     def create_guide_group(self):
-        if self.visible_element_present(GL.create_guide_group):
-            self.click_on_visible_element(GL.create_guide_group)
+        if self.click_on_visible_element(GL.create_guide_group):
             sleep(0.5)
             pass
         else:
             assert False, "Кнопка создания группы справочников не найдена"
 
     def guide_group_name_print(self):
-        if self.visible_element_present(GL.guide_name_print):
-            self.click_on_visible_element(GL.guide_name_print)
+        if self.click_on_visible_element(GL.guide_name_print):
             sleep(0.5)
             self.send_keys_to_visible_element(GL.guide_name_print, '20012026')
             pass
@@ -38,48 +35,42 @@ class GuidePage(BasePage):
             assert False, "Окно ввода названия группы справочников не найдено"
 
     def guide_group_or_guide_add_button(self):
-        if self.visible_element_present(GL.guide_group_add_button):
-            self.click_on_visible_element(GL.guide_group_add_button)
+        if self.click_on_visible_element(GL.guide_group_add_button):
             sleep(0.5)
             pass
         else:
             assert False, "Кнопка добавить группу справочников не найдена"
 
     def open_menu(self):
-        if self.visible_element_present(GL.open_menu):
-            self.click_on_visible_element(GL.open_menu)
+        if self.click_on_visible_element(GL.open_menu):
             sleep(0.5)
             pass
         else:
             assert False, "Меню группы справочников не открыто"
 
     def add_guide(self):
-        if self.visible_element_present(GL.add_guide_button):
-            self.click_on_visible_element(GL.add_guide_button)
+        if self.click_on_visible_element(GL.add_guide_button):
             sleep(0.5)
             pass
         else:
             assert False, "Кнопка создания справочника не найдена"
 
     def delete_guide_group(self):
-        if self.visible_element_present(GL.delete_guide_group):
-            self.click_on_visible_element(GL.delete_guide_group)
+        if self.click_on_visible_element(GL.delete_guide_group):
             sleep(0.5)
             pass
         else:
             assert False, "Кнопка удаления не найдена"
 
     def type_column_number(self):
-        if self.visible_element_present(GL.type_column_number):
-            self.click_on_visible_element(GL.type_column_number)
+        if self.click_on_visible_element(GL.type_column_number):
             sleep(0.5)
             pass
         else:
             assert False, "Кнопка типа колонки Число не найдена"
 
     def column_name(self, key_name):
-        if self.visible_element_present(GL.column_name):
-            self.click_on_visible_element(GL.column_name)
+        if self.click_on_visible_element(GL.column_name):
             sleep(0.5)
             self.send_keys_to_visible_element(GL.column_attribute_o_or_p_choose, key_name)
             sleep(0.5)
@@ -88,24 +79,21 @@ class GuidePage(BasePage):
             assert False, "Окно ввода имени колонки не обнаружено"
 
     def column_dimension(self):
-        if self.visible_element_present(GL.column_dimension):
-            self.click_on_visible_element(GL.column_dimension)
+        if self.click_on_visible_element(GL.column_dimension):
             sleep(0.5)
             pass
         else:
             assert False, "Кнопка размерности колонки не обнаружена"
 
     def column_purpose(self):
-        if self.visible_element_present(GL.column_purpose):
-            self.click_on_visible_element(GL.column_purpose)
+        if self.click_on_visible_element(GL.column_purpose):
             sleep(0.5)
             pass
         else:
             assert False, "Окно выбора назначения не обнаружено"
 
     def search_guide_window(self):
-        if self.visible_element_present(GL.search_guide_window):
-            self.click_on_visible_element(GL.search_guide_window)
+        if self.click_on_visible_element(GL.search_guide_window):
             sleep(0.5)
             self.send_keys_to_visible_element(GL.search_guide_window, '20012026')
             sleep(0.5)
@@ -114,40 +102,35 @@ class GuidePage(BasePage):
             assert False, "Окно поиска справочника не обнаружено"
 
     def chose_search_guide_window(self):
-        if self.visible_element_present(GL.search_guide_window):
-            self.click_on_visible_element(GL.search_guide_window)
+        if self.click_on_visible_element(GL.search_guide_window):
             sleep(0.5)
             pass
         else:
             assert False, "Строка поиска справочника не обнаружена"
 
     def add_button_list(self):
-        if self.visible_element_present(GL.add_button_list):
-            self.click_on_visible_element(GL.add_button_list)
+        if self.click_on_visible_element(GL.add_button_list):
             sleep(0.5)
             pass
         else:
             assert False, "Кнопка добавить на листе справчоника не найдена"
 
     def a_b_l_add_column(self):
-        if self.visible_element_present(GL.a_b_l_add_column):
-            self.click_on_visible_element(GL.a_b_l_add_column)
+        if self.click_on_visible_element(GL.a_b_l_add_column):
             sleep(0.5)
             pass
         else:
             assert False, "Кнопка добавить столбец не найдена"
 
     def column_type_object_type(self):
-        if self.visible_element_present(GL.column_type_object_type):
-            self.click_on_visible_element(GL.column_type_object_type)
+        if self.click_on_visible_element(GL.column_type_object_type):
             sleep(0.5)
             pass
         else:
             assert False, "Тип столбца Объект не обнаружен"
 
     def column_name_parser(self, key_name):
-        if self.visible_element_present(GL.column_name_parser):
-            self.click_on_visible_element(GL.column_name_parser)
+        if self.click_on_visible_element(GL.column_name_parser):
             sleep(0.5)
             self.send_keys_to_visible_element(GL.column_name_parser, key_name)
             sleep(0.5)
@@ -156,8 +139,7 @@ class GuidePage(BasePage):
             assert False, "Поле имя для парсинга не обнаружено"
 
     def column_name_parser_for_meaning(self, key_name):
-        if self.visible_element_present(GL.column_name_parser_for_meaning):
-            self.click_on_visible_element(GL.column_name_parser_for_meaning)
+        if self.click_on_visible_element(GL.column_name_parser_for_meaning):
             sleep(0.5)
             self.send_keys_to_visible_element(GL.column_name_parser_for_meaning, key_name)
             sleep(0.5)
@@ -166,40 +148,35 @@ class GuidePage(BasePage):
             assert False, "Поле имя для парсинга для назначения Значение не обнаружено"
 
     def column_add_button(self):
-        if self.visible_element_present(GL.column_add_button):
-            self.click_on_visible_element(GL.column_add_button)
+        if self.click_on_visible_element(GL.column_add_button):
             sleep(0.5)
             pass
         else:
             assert False, "Кнопка добавить столбец после настройки не обнаружена"
 
     def column_type_process_type(self):
-        if self.visible_element_present(GL.column_type_process_type):
-            self.click_on_visible_element(GL.column_type_process_type)
+        if self.click_on_visible_element(GL.column_type_process_type):
             sleep(0.5)
             pass
         else:
             assert False, "Выбор типа столбца Процесс не обнаружен"
 
     def column_type_attribute(self):
-        if self.visible_element_present(GL.column_type_attribute):
-            self.click_on_visible_element(GL.column_type_attribute)
+        if self.click_on_visible_element(GL.column_type_attribute):
             sleep(0.5)
             pass
         else:
             assert False, "Выбор типа столбца Атрибут не обнаружен"
 
     def column_attribute_obj_or_proc(self):
-        if self.visible_element_present(GL.column_attribute_obj_or_proc):
-            self.click_on_visible_element(GL.column_attribute_obj_or_proc)
+        if self.click_on_visible_element(GL.column_attribute_obj_or_proc):
             sleep(0.5)
             pass
         else:
             assert False, "Поле выбора между объектом или процессом для Атрибута не обнаружено"
 
     def column_attribute_o_or_p_choose(self, key_name):
-        if self.visible_element_present(GL.column_attribute_o_or_p_choose):
-            self.click_on_visible_element(GL.column_attribute_o_or_p_choose)
+        if self.click_on_visible_element(GL.column_attribute_o_or_p_choose):
             sleep(0.5)
             self.send_keys_to_visible_element(GL.column_attribute_o_or_p_choose, key_name)
             sleep(0.5)
@@ -208,8 +185,7 @@ class GuidePage(BasePage):
             assert False, "Поле выбора конкретного объекта или процесса для Атрибута не найдено"
 
     def column_attribute_connect(self, key_name):
-        if self.visible_element_present(GL.column_attribute_connect):
-            self.click_on_visible_element(GL.column_attribute_connect)
+        if self.click_on_visible_element(GL.column_attribute_connect):
             sleep(0.5)
             self.send_keys_to_visible_element(GL.column_attribute_connect, key_name)
             sleep(0.5)
@@ -218,8 +194,7 @@ class GuidePage(BasePage):
             assert False, "Поле связи объекта с другим объектом у Атрибута не обнаружено"
 
     def column_attribute_attribute_choose_for_object(self, key_name):
-        if self.visible_element_present(GL.column_attribute_attribute_choose_for_object):
-            self.click_on_visible_element(GL.column_attribute_attribute_choose_for_object)
+        if self.click_on_visible_element(GL.column_attribute_attribute_choose_for_object):
             sleep(0.5)
             self.send_keys_to_visible_element(GL.column_attribute_attribute_choose_for_object, key_name)
             sleep(0.5)
@@ -228,8 +203,7 @@ class GuidePage(BasePage):
             assert False, "Поле выбора атрибута, привязанного к объекту не обнаружено"
 
     def column_attribute_attribute_choose_for_process(self, key_name):
-        if self.visible_element_present(GL.column_attribute_attribute_choose_for_process):
-            self.click_on_visible_element(GL.column_attribute_attribute_choose_for_process)
+        if self.click_on_visible_element(GL.column_attribute_attribute_choose_for_process):
             sleep(0.5)
             self.send_keys_to_visible_element(GL.column_attribute_attribute_choose_for_process, key_name)
             sleep(0.5)
@@ -238,32 +212,28 @@ class GuidePage(BasePage):
             assert False, "Поле выбора атрибута, привязанного к процессу не обнаружено"
 
     def column_meaning(self):
-        if self.visible_element_present(GL.column_meaning):
-            self.click_on_visible_element(GL.column_meaning)
+        if self.click_on_visible_element(GL.column_meaning):
             sleep(0.5)
             pass
         else:
             assert False, "Выбор назначения колонки не обнаружен"
 
     def upload_button_list(self):
-        if self.visible_element_present(GL.upload_button_list):
-            self.click_on_visible_element(GL.upload_button_list)
+        if self.click_on_visible_element(GL.upload_button_list):
             sleep(0.5)
             pass
         else:
             assert False, "Кнопка загрузки справочника не обнаружена"
 
     def save_guide_button_list(self):
-        if self.visible_element_present(GL.save_guide_button_list):
-            self.click_on_visible_element(GL.save_guide_button_list)
+        if self.click_on_visible_element(GL.save_guide_button_list):
             sleep(0.5)
             pass
         else:
             assert False, "Кнопка сохранения справочника не обнаружена"
 
     def save_guide_button_confirm(self):
-        if self.visible_element_present(GL.save_guide_button_confirm):
-            self.click_on_visible_element(GL.save_guide_button_confirm)
+        if self.click_on_visible_element(GL.save_guide_button_confirm):
             sleep(0.5)
             pass
         else:
