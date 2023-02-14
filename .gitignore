@@ -9,3 +9,5 @@
 /config.py
 /video_reports/
 /.pytest_cache/
+.idea
+/tools/
