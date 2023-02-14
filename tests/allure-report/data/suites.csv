@@ -1,0 +1,17 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Tue Feb 14 12:34:19 KRAT 2023","Tue Feb 14 12:35:30 KRAT 2023","71186","tests","test_calculation_constructor","TestCalculationConstructor","","","Удаление МК с фронта","Тест запустил - Данил Подольный. 
+Стенд, на котором запускался тест - http://genrestest.nntc.pro/economics/"
+"passed","Tue Feb 14 14:54:55 KRAT 2023","Tue Feb 14 14:56:18 KRAT 2023","82849","tests","test_calculation_constructor","TestCalculationConstructor","","","Тест загрузки МК","Тест запустил - Данил Подольный 
+Стенд, на котором запускался тест - http://genrestest.nntc.pro/economics/"
+"passed","Tue Feb 14 14:45:28 KRAT 2023","Tue Feb 14 14:50:01 KRAT 2023","273588","tests","test_calculation_constructor","TestCalculationConstructor","","","Тест загрузки МК","Тест запустил - Данил Подольный 
+Стенд, на котором запускался тест - http://genrestest.nntc.pro/economics/"
+"passed","Tue Feb 14 10:17:11 KRAT 2023","Tue Feb 14 10:22:55 KRAT 2023","343880","tests","test_calculation_constructor","TestCalculationConstructor","","","Тест загрузки МК","Тест запустил - Данил Подольный 
+Стенд, на котором запускался тест - http://genrestest.nntc.pro/economics/"
+"passed","Tue Feb 14 14:50:13 KRAT 2023","Tue Feb 14 14:54:44 KRAT 2023","270966","tests","test_calculation_constructor","TestCalculationConstructor","","","Тест загрузки МК","Тест запустил - Данил Подольный 
+Стенд, на котором запускался тест - http://genrestest.nntc.pro/economics/"
+"passed","Tue Feb 14 14:29:58 KRAT 2023","Tue Feb 14 14:36:52 KRAT 2023","414146","tests","test_calculation_constructor","TestCalculationConstructor","","","Тест загрузки МК","Тест запустил - Данил Подольный 
+Стенд, на котором запускался тест - http://genrestest.nntc.pro/economics/"
+"passed","Tue Feb 14 14:38:58 KRAT 2023","Tue Feb 14 14:45:16 KRAT 2023","377760","tests","test_calculation_constructor","TestCalculationConstructor","","","Тест загрузки МК","Тест запустил - Данил Подольный 
+Стенд, на котором запускался тест - http://genrestest.nntc.pro/economics/"
+"passed","Tue Feb 14 14:37:05 KRAT 2023","Tue Feb 14 14:38:47 KRAT 2023","102198","tests","test_calculation_constructor","TestCalculationConstructor","","","Тест загрузки МК","Тест запустил - Данил Подольный 
+Стенд, на котором запускался тест - http://genrestest.nntc.pro/economics/"

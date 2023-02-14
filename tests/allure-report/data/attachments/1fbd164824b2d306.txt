@@ -1,0 +1,4 @@
+mb_checker запущен
+calculation_constructor_page, line 96: case_name = 2019_ГРР_Создание_ПГД_Кувайски_ПГД_ГРР_КУВ_ГРР_ф, mb_list = 2019_ГРР_Создание_ПГД_Кувайски_ПГД_ГРР_КУВ_ГРР_ф
+mb_checker запущен
+calculation_constructor_page, line 96: case_name = 2019_2020_Создание_концепт_Концепт_ГРР_КУВ_ГРР_ф, mb_list = 2019_2020_Создание_концепт_Концепт_ГРР_КУВ_ГРР_ф
