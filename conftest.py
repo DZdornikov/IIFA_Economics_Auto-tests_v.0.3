@@ -26,10 +26,11 @@ def driver():
 
 
 # Функция для автозаписи и сохранения видео
-@pytest.fixture(scope="function", autouse=True)
+@pytest.fixture(autouse=True)
 def record_video(request):
-    # TODO: теряет видео на моменте прикрепления, если переключить на режим "failed" и запускать сразу всем скопом
-
+    # TODO: Не работает на параметризованные тесты
+    # Solving - Написать аналогичную функцию, которая будет запускаться в ручную с определенным названием
+    # Как тогда сделать удаление при падении тестов? - Никак?
     # TODO: а может стоит не сохранять в video_reports, а сразу крепить и чистить?
     """Fixture records video for all tests and saves it if test failed"""
     if 'novideo' in request.keywords:
@@ -76,7 +77,7 @@ def sign_in_to_stand(driver, stand=current_stand):
 
 # Функция удаляет устаревшую историю прогона тестов и заменяет на новую везде, где нужно
 @pytest.mark.novideo
-@pytest.fixture(scope="function", autouse=True)
+@pytest.fixture(autouse=True)
 def test_append_report_history():
     history_in_allure_res = fr"{allure_results_dir}\history"
     history_in_allure_rep = fr"{allure_report_dir}\history"

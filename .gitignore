@@ -7,11 +7,5 @@
 /inspectionProfiles/profiles_settings.xml
 /vcs.xml
 /config.py
-/tools/
 /video_reports/
-/allure_report_data/
-/tests/allure-results/
 /.pytest_cache/
-/.pytest_cache/
-/tests/allure-results/
-/tests/allure-report/

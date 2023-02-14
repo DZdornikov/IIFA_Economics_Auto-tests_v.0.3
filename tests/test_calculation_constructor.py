@@ -3,11 +3,8 @@ import pytest
 from config import tester_name, current_stand
 from pages.calculation_constructor_page import CalculationConstructorPage as CCPage
 from files.files_list import CalculationConstructorFilesList as CCFiles
-from conftest import init_logger
+from conftest import parametrize_record_video
 from time import sleep
-
-
-log_name = init_logger()
 
 
 class TestCalculationConstructor:
@@ -35,11 +32,11 @@ class TestCalculationConstructor:
     @allure.severity(allure.severity_level.BLOCKER)
     @allure.description(f"Тест запустил - {tester_name} \nСтенд, на котором запускался тест - {current_stand}")
     @pytest.mark.calculacion_constructor
-    # @pytest.mark.parametrize('mb_name', [CCFiles.MB_GEE_filename, CCFiles.MB_KUV_filename, CCFiles.MB_CNT_filename,
-    #                                      CCFiles.MB_YUUNG_filename, CCFiles.MB_YAG_filename,
-    #                                      CCFiles.MB_YUUNG_BUR_filename])
-    def test_parser(self, sign_in_to_stand, mb_name=CCFiles.MB_YUUNG_filename):
-        # TODO: Снова падает, непонятно как отладить
+    @pytest.mark.novideo
+    @pytest.mark.parametrize('mb_name', [CCFiles.MB_GEE_filename, CCFiles.MB_KUV_filename, CCFiles.MB_CNT_filename,
+                                         CCFiles.MB_YUUNG_filename, CCFiles.MB_YAG_filename,
+                                         CCFiles.MB_YUUNG_BUR_filename])
+    def test_parser(self, sign_in_to_stand, mb_name):
         with allure.step("Прохождение авторизации на стенде"):
             page = sign_in_to_stand
         with allure.step("Переход в конструктор расчетов"):

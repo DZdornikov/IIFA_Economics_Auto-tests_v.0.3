@@ -85,7 +85,7 @@ class CalculationConstructorPage(BasePage):
                                                      'apse-vertical.MuiCollapse-entered.css-c4sutr > div > div > div > '
                                                      'div > ul > div:nth-child(1) > div > li > span')):
                     assert False, "Не найден кейс, похоже, что загрузилась пустая МК"
-                for j in range(1, len(mb_list)):
+                for j in range(1, len(mb_list)+1):
                     for k in range(len(mb_list)):
                         case_locator = (By.CSS_SELECTOR,
                                         '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div > di'
@@ -95,12 +95,13 @@ class CalculationConstructorPage(BasePage):
                         case_name = self.text_of_visible_element(case_locator)
                         if case_name == mb_list[k]:
                             case_counter += 1
-                        if case_counter != len(mb_list):
-                            assert False, "Потерян один из кейсов"
-                        elif case_counter == len(mb_list):
-                            # Закрываем список кейсов
-                            self.click_on_visible_element(mb_opener_locator)
-                            pass
+                            break
+                if case_counter != len(mb_list):
+                    assert False, "Потерян один из кейсов"
+                elif case_counter == len(mb_list):
+                    # Закрываем список кейсов
+                    self.click_on_visible_element(mb_opener_locator)
+                    pass
                 else:
                     continue
 
