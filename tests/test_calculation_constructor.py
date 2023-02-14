@@ -3,7 +3,6 @@ import pytest
 from config import tester_name, current_stand
 from pages.calculation_constructor_page import CalculationConstructorPage as CCPage
 from files.files_list import CalculationConstructorFilesList as CCFiles
-from conftest import parametrize_record_video
 from time import sleep
 
 
