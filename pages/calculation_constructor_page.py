@@ -5,7 +5,7 @@ from locators.calculation_constructor_locators import CalculationConstructorLoca
 from files.files_list import CalculationConstructorFilesList as CCFiles
 from selenium.webdriver.common.by import By
 from time import sleep
-# from random import randint
+from random import randint
 
 # Переменные
 calculation_current_stand = current_stand + "calculation-constructor"
@@ -107,7 +107,7 @@ class CalculationConstructorPage(BasePage):
 
     # Функция, которая принимает название МК и максимальный таймер ожидания. Загружает МК на стенд и запускает проверки
     # по всем консолидациям
-    def upload_mb(self, mb_name, timer):
+    def upload_mb(self, mb_name, timer=300):
         # Блок, который разбирается какую консолидацию и список кейсов прикрепить в запрос к чекеру
         if mb_name == CCFiles.MB_GEE_filename:
             file, cons_list, cases_list = CCFiles.MB_GEE_dir, CCFiles.MB_GEE_consolidations, CCFiles.MB_GEE_cases
@@ -137,4 +137,11 @@ class CalculationConstructorPage(BasePage):
     # Функция выбирает случайный кейс, первые попавшиеся ФЭМ и Макру, производит расчет, скачивает полученный отчет и
     # проверяет скачался ли файл
     def calculate_random_case(self):
+        with allure.step("Подсчет количества МК на стенде"):
+            mb_num = CalculationConstructorPage.mb_counter(self)
+            if mb_num == 0:
+                with allure.step("На стенде отсутствуют МК, загружаю случайную"):
+                    mb_list = [CCFiles.MB_GEE_filename, CCFiles.MB_YUUNG_filename, CCFiles.MB_YAG_filename,
+                               CCFiles.MB_CNT_filename, CCFiles.MB_KUV_filename, CCFiles.MB_YUUNG_BUR_filename]\
+
         pass
