@@ -19,7 +19,9 @@ class CalculationConstructorLocators:
     first_FEM = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div:nth-child(3) > div > div > div > di'
                                   'v:nth-child(2) > div > div > div > div > div > ul > li:nth-child(1) > div')
     first_Macro = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div:nth-child(3) > div > div > div > '
-                                    'div:nth-child(4) > div > div > div > div > div > ul > li:nth-child(1) > div')
+                                    'div > div.MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-entered.css-c4sutr > d'
+                                    'iv > div > div > div > ul > li')
     start_calculation_button = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div > div > div > div > '
                                                  'div.MuiGrid-root.MuiGrid-container.MuiGrid-item.css-8x8291 > div > bu'
                                                  'tton > svg')
+    first_notification = (By.CSS_SELECTOR, '#root > div.Toastify > div > div')

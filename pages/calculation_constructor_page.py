@@ -1,9 +1,13 @@
+import os
+
 import allure
 from pages.base_page import BasePage
-from config import current_stand
+from config import current_stand, downloads_dir
 from locators.calculation_constructor_locators import CalculationConstructorLocators as CCLocators
+from locators.report_locators import ReportLocators as RLocators
 from files.files_list import CalculationConstructorFilesList as CCFiles
 from selenium.webdriver.common.by import By
+from os import path
 from time import sleep
 from random import randint
 
@@ -137,11 +141,64 @@ class CalculationConstructorPage(BasePage):
     # Функция выбирает случайный кейс, первые попавшиеся ФЭМ и Макру, производит расчет, скачивает полученный отчет и
     # проверяет скачался ли файл
     def calculate_random_case(self):
-        with allure.step("Подсчет количества МК на стенде"):
-            mb_num = CalculationConstructorPage.mb_counter(self)
-            if mb_num == 0:
-                with allure.step("На стенде отсутствуют МК, загружаю случайную"):
-                    mb_list = [CCFiles.MB_GEE_filename, CCFiles.MB_YUUNG_filename, CCFiles.MB_YAG_filename,
-                               CCFiles.MB_CNT_filename, CCFiles.MB_KUV_filename, CCFiles.MB_YUUNG_BUR_filename]\
-
-        pass
+        # Подсчет МК на стенде и проверка, если МК на стенде нет, то загрузка
+        mb_num = CalculationConstructorPage.mb_counter(self)
+        if mb_num == 0:
+            # На стенде отсутствуют МК, загружаем рандомную
+            mb_list = [CCFiles.MB_GEE_filename, CCFiles.MB_YUUNG_filename, CCFiles.MB_YAG_filename,
+                       CCFiles.MB_CNT_filename, CCFiles.MB_KUV_filename, CCFiles.MB_YUUNG_BUR_filename]
+            CalculationConstructorPage.upload_mb(self, mb_list[randint(0, len(mb_list)+1)])
+        # Подсчет консолидаций
+        cons_num = CalculationConstructorPage.mb_counter(self)
+        # выбор случайной консолидации и кейса
+        chosen_cons_loc = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div '
+                                            '> div > div.MuiGrid-root.css-rfnosa > div:nth-child(' +
+                           str(randint(2, cons_num)) + ')')
+        self.click_on_visible_element(chosen_cons_loc)
+        cases_num = 0
+        for i in range(1, 33):
+            case_loc = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div > d'
+                                         'iv > div> div > div.MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-entered'
+                                         '.css-c4sutr > div > div > div > div > ul > div:nth-child(' + str(i) +
+                                         ') > div > li > span')
+            if self.visible_element_present(case_loc):
+                cases_num += 1
+            else:
+                break
+        chosen_case_loc = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div '
+                                            '> div > div> div > div.MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-e'
+                                            'ntered.css-c4sutr > div > div > div > div > ul > div:nth-child(' +
+                           str(randint(1, cases_num)) + ') > div > li > span')
+        chosen_case_name = self.text_of_visible_element(chosen_case_loc)
+        self.click_on_visible_element(chosen_case_loc)
+        # Выбрать первую ФЭМ и первую макру
+        self.click_on_visible_element(CCLocators.open_FEM_menu_button)
+        self.click_on_visible_element(CCLocators.first_FEM)
+        self.click_on_visible_element(CCLocators.open_FEM_menu_button)
+        self.click_on_visible_element(CCLocators.open_Macro_menu_button)
+        self.click_on_visible_element(CCLocators.first_Macro)
+        self.click_on_visible_element(CCLocators.start_calculation_button)
+        # Прокликиваем уведомления
+        while self.visible_element_present(CCLocators.first_notification):
+            self.click_on_visible_element(CCLocators.first_notification)
+            sleep(0.25)
+        # Проверяем корректно ли открылась страница отчетов
+        assert self.check_url(current_stand + "reports"), "Ошибка, открыта страница, отличная от страницы отчетов"
+        # Проверям совпадение названия отчета с названием кейса, выбранного ранее
+        assert self.text_of_visible_element(RLocators.first_report_name) == chosen_case_name, \
+            "Название сгенерированного отчета не совпадает с названием выбранного кейса"
+        # Проверяем есть ли документ в папке загрузок с таким именем
+        if not path.isfile(downloads_dir + fr"\{chosen_case_name}.xlsx"):
+            # Документа нет, проверяем
+            self.click_on_visible_element(RLocators.export_report_button)
+            sleep(1)
+            assert path.isfile(downloads_dir + fr"\{chosen_case_name}.xlsx"), "Файл не найден в папке загрузок после " \
+                                                                              "экспорта"
+        else:
+            os.remove(downloads_dir + fr"\{chosen_case_name}.xlsx")
+            assert not path.isfile(downloads_dir + fr"\{chosen_case_name}.xlsx"), "Ошибка при удалении файла - файл " \
+                                                                                  "не найден"
+            self.click_on_visible_element(RLocators.export_report_button)
+            sleep(1)
+            assert path.isfile(downloads_dir + fr"\{chosen_case_name}.xlsx"), "Файл не найден в папке загрузок после " \
+                                                                              "экспорта"
