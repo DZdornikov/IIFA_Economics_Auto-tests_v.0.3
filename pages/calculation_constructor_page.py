@@ -111,7 +111,7 @@ class CalculationConstructorPage(BasePage):
 
     # Функция, которая принимает название МК и максимальный таймер ожидания. Загружает МК на стенд и запускает проверки
     # по всем консолидациям
-    def upload_mb(self, mb_name, timer=300):
+    def upload_mb(self, mb_name, timer=300, check=True):
         # Блок, который разбирается какую консолидацию и список кейсов прикрепить в запрос к чекеру
         if mb_name == CCFiles.MB_GEE_filename:
             file, cons_list, cases_list = CCFiles.MB_GEE_dir, CCFiles.MB_GEE_consolidations, CCFiles.MB_GEE_cases
@@ -135,8 +135,9 @@ class CalculationConstructorPage(BasePage):
             new_mb_num = CalculationConstructorPage.mb_counter(self)
             if new_mb_num > mb_num:
                 break
-        for j in range(len(cons_list)):
-            CalculationConstructorPage.mb_checker(self, cons_list[j], cases_list[j])
+        if check:
+            for j in range(len(cons_list)):
+                CalculationConstructorPage.mb_checker(self, cons_list[j], cases_list[j])
 
     # Функция выбирает случайный кейс, первые попавшиеся ФЭМ и Макру, производит расчет, скачивает полученный отчет и
     # проверяет скачался ли файл
