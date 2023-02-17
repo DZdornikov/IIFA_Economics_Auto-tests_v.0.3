@@ -9,5 +9,5 @@
 /config.py
 /video_reports/
 /.pytest_cache/
-.idea/
-/tools/ffmpeg-master-latest-win64-gpl/
+.idea
+/tools/ffmpeg-master-latest-win64-gpl
