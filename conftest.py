@@ -1,7 +1,7 @@
 import allure
 import pytest
 import subprocess
-from config import main_dir, ffmpeg_path, record_video_mode, current_stand
+from config import main_dir, ffmpeg_path, current_stand
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -9,6 +9,7 @@ from os import listdir, remove, path
 from shutil import copy
 from datetime import datetime as dt
 from pages.sign_in_page import SignInPage
+from functools import update_wrapper
 
 # Переменные
 video_reports_dir = fr'{main_dir}\video_reports'                            # Путь к директории видео тестов
@@ -25,37 +26,35 @@ def driver():
     driver.quit()
 
 
-# Функция для автозаписи и сохранения видео
-@pytest.fixture(autouse=True)
-def record_video(request):
-    # TODO: Не работает на параметризованные тесты
-    # Solving - Написать аналогичную функцию, которая будет запускаться в ручную с определенным названием
-    # Как тогда сделать удаление при падении тестов? - Никак?
-    # TODO: а может стоит не сохранять в video_reports, а сразу крепить и чистить?
-    """Fixture records video for all tests and saves it if test failed"""
-    if 'novideo' in request.keywords:
-        yield
-    else:
-        mode = record_video_mode
-        if (not path.exists(ffmpeg_path)) or (mode == 'none'):
-            yield
-        else:
-            outfile = f"{video_reports_dir}\\{request.node.name}_{dt.now().strftime('%H_%M_%S')}.mp4"
+# Wrapper для записи видео во время работы теста
+def recorder_wrapper(func):
+    def func_wrapper(*args, **kwargs):
+        try:
+            outfile = f"{video_reports_dir}\\{func.__name__}_{dt.now().strftime('%H_%M_%S')}.mp4"
+            if path.exists(outfile):
+                remove(outfile)
             cmd = f'{ffmpeg_path} -f gdigrab -framerate ntsc -video_size 1920x1080 -i desktop {outfile}'
             ffmpeg_process = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                                               stdin=subprocess.PIPE)
-            tests_failed_before_module = request.session.testsfailed
-            yield
-            tests_failed_during_module = request.session.testsfailed - tests_failed_before_module
-
+            func(*args, **kwargs)  # No return values
             ffmpeg_process.communicate(input=b'q')
             ffmpeg_process.wait()
+            allure.attach.file(outfile, attachment_type=allure.attachment_type.MP4)
+            ffmpeg_process.kill()
+        except AssertionError as ae:
+            print(f"Assertion failed: {str(ae)}")
+            raise
+        except Exception as e:
+            print(f"Unknown error: {str(e)}")
+            raise
 
-            if (tests_failed_during_module == 0) and (mode == 'failed'):
-                # Remove video file if test passed
-                remove(outfile)
-            else:
-                allure.attach.file(outfile, attachment_type=allure.attachment_type.MP4)
+    update_wrapper(func_wrapper, func)
+    return func_wrapper
+
+
+@pytest.hookimpl(tryfirst=True)
+def pytest_runtest_call(item):
+    item._obj = recorder_wrapper(item._obj)
 
 
 # Функция для входа на стенд. Запускает модуль "Экономика" по адресу стенда, проходит KeyCloak
@@ -70,13 +69,12 @@ def sign_in_to_stand(driver, stand=current_stand):
 # Функция для очистки папки с видео. ПОСЛЕДСТВИЯ НЕОБРАТИМЫ!!!
 # Запуск только в PyCharm. Нужно снять комментарий, запустить, закомментировать. Если не закомментировать, то будет
 # очень плохо
-# @pytest.mark.novideo
-# def test_clear_video_dir():
-#     for f in listdir(video_reports_dir):
-#         remove(path.join(video_reports_dir, f))
+def test_novideo_clear_video_dir():
+    for f in listdir(video_reports_dir):
+        remove(path.join(video_reports_dir, f))
+
 
 # Функция удаляет устаревшую историю прогона тестов и заменяет на новую везде, где нужно
-@pytest.mark.novideo
 @pytest.fixture(autouse=True)
 def test_append_report_history():
     history_in_allure_res = fr"{allure_results_dir}\history"

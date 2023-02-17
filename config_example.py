@@ -15,6 +15,5 @@ main_dir = path.dirname(__file__)
 
 tester_name = "Ваня Пупкин"                                                             # Имя-фамилия тестировщика
 ffmpeg_path = fr'{main_dir}\путь к ffmpeg.exe'                                          # Путь к ffmpeg.exe
-record_video_mode = "all"                                   # Режим записи видео. Поддерживаемые: 'all'/'none'/'failed'
 downloads_dir = fr"ПУТЬ К ПАПКЕ ЗАГРУЗОК"                                         # Путь к папке загрузок
 current_stand = genrestest                                                              # Выбор стенда для работы

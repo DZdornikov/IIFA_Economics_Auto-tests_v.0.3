@@ -31,7 +31,6 @@ class TestCalculationConstructor:
     @allure.severity(allure.severity_level.BLOCKER)
     @allure.description(f"Тест запустил - {tester_name} \nСтенд, на котором запускался тест - {current_stand}")
     @pytest.mark.calculacion_constructor
-    @pytest.mark.novideo
     @pytest.mark.parametrize('mb_name', [CCFiles.MB_GEE_filename, CCFiles.MB_KUV_filename, CCFiles.MB_CNT_filename,
                                          CCFiles.MB_YUUNG_filename, CCFiles.MB_YAG_filename,
                                          CCFiles.MB_YUUNG_BUR_filename])
@@ -45,7 +44,7 @@ class TestCalculationConstructor:
         with allure.step("Очистка мастер-книг со стенда"):
             CCPage.delete_all_masterbooks(page)
         with allure.step(f'Загрузка мастер-книги на стенд'):
-            CCPage.upload_mb(page, mb_name, timer=300)
+            CCPage.upload_mb(page, mb_name)
 
     @allure.title("Расчет случайного кейса")
     @allure.feature("Ядро расчетов, выгрузка отчета")
