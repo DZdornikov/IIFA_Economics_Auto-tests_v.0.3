@@ -40,6 +40,7 @@ def recorder_wrapper(func):
             ffmpeg_process.communicate(input=b'q')
             ffmpeg_process.wait()
             allure.attach.file(outfile, attachment_type=allure.attachment_type.MP4)
+            ffmpeg_process.kill()
         except AssertionError as ae:
             print(f"Assertion failed: {str(ae)}")
             raise

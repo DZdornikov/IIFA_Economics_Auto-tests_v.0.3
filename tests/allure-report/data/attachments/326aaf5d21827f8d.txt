@@ -1,2 +1,0 @@
-test_parser
-Assertion failed: МастерКниги отсутствуют на стенде

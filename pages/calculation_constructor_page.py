@@ -151,9 +151,13 @@ class CalculationConstructorPage(BasePage):
         # Подсчет консолидаций
         cons_num = CalculationConstructorPage.mb_counter(self)
         # выбор случайной консолидации и кейса
+        if cons_num == 1:
+            chosen_cons_num = 2
+        else:
+            chosen_cons_num = randint(1, cons_num+1)
         chosen_cons_loc = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div:nth-child(1) > div > div '
                                             '> div > div.MuiGrid-root.css-rfnosa > div:nth-child(' +
-                           str(randint(2, cons_num)) + ')')
+                           str(chosen_cons_num) + ')')
         self.click_on_visible_element(chosen_cons_loc)
         cases_num = 0
         for i in range(1, 33):
@@ -186,19 +190,31 @@ class CalculationConstructorPage(BasePage):
         assert self.check_url(current_stand + "reports"), "Ошибка, открыта страница, отличная от страницы отчетов"
         # Проверям совпадение названия отчета с названием кейса, выбранного ранее
         assert self.text_of_visible_element(RLocators.first_report_name) == chosen_case_name, \
-            "Название сгенерированного отчета не совпадает с названием выбранного кейса"
+            f"Название сгенерированного отчета не совпадает с названием выбранного кейса. Found - " \
+            f"{self.text_of_visible_element(RLocators.first_report_name)}, expected - {chosen_case_name}"
         # Проверяем есть ли документ в папке загрузок с таким именем
         if not path.isfile(downloads_dir + fr"\{chosen_case_name}.xlsx"):
             # Документа нет, проверяем
             self.click_on_visible_element(RLocators.export_report_button)
-            sleep(1)
+            sleep(2)
             assert path.isfile(downloads_dir + fr"\{chosen_case_name}.xlsx"), "Файл не найден в папке загрузок после " \
                                                                               "экспорта"
+            os.remove(downloads_dir + fr"\{chosen_case_name}.xlsx")
+            sleep(1)
+            assert not path.isfile(downloads_dir + fr"\{chosen_case_name}.xlsx"), "Файл найден в папке загрузок " \
+                                                                                  "после удаления"
         else:
             os.remove(downloads_dir + fr"\{chosen_case_name}.xlsx")
             assert not path.isfile(downloads_dir + fr"\{chosen_case_name}.xlsx"), "Ошибка при удалении файла - файл " \
                                                                                   "не найден"
             self.click_on_visible_element(RLocators.export_report_button)
-            sleep(1)
+            sleep(2)
             assert path.isfile(downloads_dir + fr"\{chosen_case_name}.xlsx"), "Файл не найден в папке загрузок после " \
                                                                               "экспорта"
+            os.remove(downloads_dir + fr"\{chosen_case_name}.xlsx")
+            sleep(1)
+            assert not path.isfile(downloads_dir + fr"\{chosen_case_name}.xlsx"), "Файл найден в папке загрузок " \
+                                                                                  "после удаления"
+        self.click_on_visible_element(CCLocators.move_to_calculation_constructor_page_button)
+        sleep(1)
+        assert self.check_url(calculation_current_stand), "Ошибка при возврате на страницу конструктора расчетов"
