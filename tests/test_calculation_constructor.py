@@ -7,7 +7,6 @@ from time import sleep
 from datetime import datetime as dt
 
 
-# TODO: ВШИТЬ В ТЕСТЫ ДАТУ ПРОГОНА? ИЛИ МОЖНО ЕЕ И ДАЛЬШЕ ИЗ ВИДЕО БРАТЬ?
 class TestCalculationConstructor:
 
     @allure.title("Удаление МК с фронта")
