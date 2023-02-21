@@ -6,16 +6,13 @@ class CalculationConstructorFilesList:
     current_dir = current_dir[:-13]
 
     # Макропараметры
-    macro_name = 'None'
-    macro_dir = os.path.join(current_dir, (macro_name + '.las'))
+    macro_dir = os.path.join(current_dir, '.las')
 
     # ФЭМ НДПИ
-    FEM_NDPI_name = 'None'
-    FEM_NDPI_dir = os.path.join(current_dir, (macro_name + '.xml'))
+    FEM_NDPI_dir = os.path.join(current_dir, 'Gazprom-Neft_Upstream_v22.6Б.xml')
 
     # ФЭМ НДД
-    FEM_NDD_name = 'None'
-    FEM_NDD_dir = os.path.join(current_dir, (FEM_NDD_name + '.xml'))
+    FEM_NDD_dir = os.path.join(current_dir, 'Gazprom-Neft_Upstream_v22.6Б_NDD.xml')
 
     # Оренбуржский формат - МК ЮУНГ Бурение
     # 1 консолидация 6 кейсов

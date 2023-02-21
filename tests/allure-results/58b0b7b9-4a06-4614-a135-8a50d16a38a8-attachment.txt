@@ -1,0 +1,31 @@
+Unknown error: Message: element click intercepted: Element <svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium jss109 css-vubbuv" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="PlayCircleOutlineIcon">...</svg> is not clickable at point (1197, 692). Other element would receive the click: <div style="width: 24px; height: 24px;">...</div>
+  (Session info: chrome=109.0.5414.120)
+Stacktrace:
+Backtrace:
+	(No symbol) [0x00DC6643]
+	(No symbol) [0x00D5BE21]
+	(No symbol) [0x00C5DA9D]
+	(No symbol) [0x00C992B2]
+	(No symbol) [0x00C96970]
+	(No symbol) [0x00C93E0B]
+	(No symbol) [0x00C92548]
+	(No symbol) [0x00C86B13]
+	(No symbol) [0x00CAFD7C]
+	(No symbol) [0x00C8641F]
+	(No symbol) [0x00CB00D4]
+	(No symbol) [0x00CC6B09]
+	(No symbol) [0x00CAFB76]
+	(No symbol) [0x00C849C1]
+	(No symbol) [0x00C85E5D]
+	GetHandleVerifier [0x0103A142+2497106]
+	GetHandleVerifier [0x010685D3+2686691]
+	GetHandleVerifier [0x0106BB9C+2700460]
+	GetHandleVerifier [0x00E73B10+635936]
+	(No symbol) [0x00D64A1F]
+	(No symbol) [0x00D6A418]
+	(No symbol) [0x00D6A505]
+	(No symbol) [0x00D7508B]
+	BaseThreadInitThunk [0x75C200F9+25]
+	RtlGetAppContainerNamedObjectPath [0x76ED7BBE+286]
+	RtlGetAppContainerNamedObjectPath [0x76ED7B8E+238]
+

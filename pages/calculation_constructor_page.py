@@ -62,6 +62,21 @@ class CalculationConstructorPage(BasePage):
             mb_num += 1
         return mb_num
 
+    # Функция считает ФЭМ на стенде и возвращает их количество
+    def fem_counter(self):
+        fem_num = 0
+        self.click_on_visible_element(CCLocators.open_FEM_menu_button)
+        for i in range(1, 11):
+            fem_loc = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div:nth-child(3) > div > div > di'
+                                        'v > div > div.MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-entered.css-c4'
+                                        'sutr > div > div > div > div > ul > li:nth-child(' + str(i) + ')')
+            if self.visible_element_present(fem_loc):
+                fem_num += 1
+            else:
+                break
+        self.click_on_visible_element(CCLocators.open_FEM_menu_button)
+        return fem_num
+
     # Функция, которая принимает название МК и список его кейсов. Проходится по всем МК, находит нужную, открывает,
     # считает кейсы, сверяет их число с ожидаемым
     def mb_checker(self, mb_name, mb_list):
@@ -177,12 +192,18 @@ class CalculationConstructorPage(BasePage):
         chosen_case_name = self.text_of_visible_element(chosen_case_loc)
         self.click_on_visible_element(chosen_case_loc)
         # Выбрать первую ФЭМ и первую макру
+        # Блок проверки на наличие ФЭМ на фронте
+        if CalculationConstructorPage.fem_counter(self) == 0:
+            CalculationConstructorPage.upload_fem(self, CCFiles.FEM_NDD_dir)
         self.click_on_visible_element(CCLocators.open_FEM_menu_button)
         self.click_on_visible_element(CCLocators.first_FEM)
         self.click_on_visible_element(CCLocators.open_FEM_menu_button)
+
+        # TODO: сделать проверку на наличие макры на стенде и загрузку в случае отсутствия
         self.click_on_visible_element(CCLocators.open_Macro_menu_button)
         self.click_on_visible_element(CCLocators.first_Macro)
         self.click_on_visible_element(CCLocators.start_calculation_button)
+
         # Прокликиваем уведомления
         while self.visible_element_present(CCLocators.first_notification):
             self.click_on_visible_element(CCLocators.first_notification)
@@ -219,3 +240,30 @@ class CalculationConstructorPage(BasePage):
         self.click_on_visible_element(CCLocators.move_to_calculation_constructor_page_button)
         sleep(1)
         assert self.check_url(calculation_current_stand), "Ошибка при возврате на страницу конструктора расчетов"
+
+    # Функция удаляет все ФЭМ на стенде
+    def delete_all_fem(self):
+        fem_num = CalculationConstructorPage.fem_counter(self)
+        if fem_num == 0:
+            pass
+        self.click_on_visible_element(CCLocators.open_FEM_menu_button)
+        for i in range(fem_num, 0, -1):
+            self.click_on_visible_element(CCLocators.additional_menu_first_FEM)
+            sleep(0.5)
+            self.click_on_visible_element((By.XPATH, '/html/body/div[' + str(i+1) + ']/div[3]/ul/li/div/span'))
+        assert not self.visible_element_present((By.CSS_SELECTOR,
+                                                 '#root > div > div:nth-child(3) > div > div > div:nth-child(3) > div >'
+                                                 ' div > div > div > div.MuiCollapse-root.MuiCollapse-vertical.MuiColla'
+                                                 'pse-entered.css-c4sutr > div > div > div > div > ul > li:nth-child(1)'
+                                                 )), "ФЭМ найдены после удаления, следовательно удаление не работает"
+        self.click_on_visible_element(CCLocators.open_FEM_menu_button)
+
+    def upload_fem(self, fem_file):
+        fem_num = CalculationConstructorPage.fem_counter(self)
+        self.click_on_visible_element(CCLocators.open_FEM_menu_button)
+        self.send_keys_to_hidden_element(CCLocators.upload_FEM, fem_file)
+        self.click_on_visible_element(CCLocators.open_FEM_menu_button)
+        new_fem_num = CalculationConstructorPage.fem_counter(self)
+        assert (new_fem_num - fem_num) == 1, f"Количество ФЭМ на стенде не совпадает с ожидаемым. Ожидаемое = " \
+                                             f"{fem_num + 1}. Фактическое = {new_fem_num}"
+        self.click_on_visible_element(CCLocators.open_FEM_menu_button)
