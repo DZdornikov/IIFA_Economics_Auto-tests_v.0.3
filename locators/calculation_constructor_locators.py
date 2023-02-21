@@ -29,6 +29,10 @@ class CalculationConstructorLocators:
     first_Macro = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div:nth-child(3) > div > div > div > '
                                     'div > div.MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-entered.css-c4sutr > d'
                                     'iv > div > div > div > ul > li')
+    additional_menu_first_Macro = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div:nth-child(3) > di'
+                                                    'v > div > div > div > div.MuiCollapse-root.MuiCollapse-vertical.Mu'
+                                                    'iCollapse-entered.css-c4sutr > div > div > div > div > ul > li > b'
+                                                    'utton')
     start_calculation_button = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div > div > div > div > '
                                                  'div.MuiGrid-root.MuiGrid-container.MuiGrid-item.css-8x8291 > div > bu'
                                                  'tton > svg')

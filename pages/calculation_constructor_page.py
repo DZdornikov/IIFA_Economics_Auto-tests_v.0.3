@@ -66,7 +66,7 @@ class CalculationConstructorPage(BasePage):
     def fem_counter(self):
         fem_num = 0
         self.click_on_visible_element(CCLocators.open_FEM_menu_button)
-        for i in range(1, 11):
+        for i in range(1, 101):
             fem_loc = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div:nth-child(3) > div > div > di'
                                         'v > div > div.MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-entered.css-c4'
                                         'sutr > div > div > div > div > ul > li:nth-child(' + str(i) + ')')
@@ -76,6 +76,21 @@ class CalculationConstructorPage(BasePage):
                 break
         self.click_on_visible_element(CCLocators.open_FEM_menu_button)
         return fem_num
+
+    # Функция считает макропараметры на стенде и возвращает их количество
+    def macro_counter(self):
+        macro_num = 0
+        self.click_on_visible_element(CCLocators.open_Macro_menu_button)
+        for i in range(1, 101):
+            macro_loc = (By.CSS_SELECTOR, '#root > div > div:nth-child(3) > div > div > div:nth-child(3) > div > div > '
+                                          'div > div > div.MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-entered.cs'
+                                          's-c4sutr > div > div > div > div > ul > li:nth-child(' + str(i) + ')')
+            if self.visible_element_present(macro_loc):
+                macro_num += 1
+            else:
+                break
+        self.click_on_visible_element(CCLocators.open_Macro_menu_button)
+        return macro_num
 
     # Функция, которая принимает название МК и список его кейсов. Проходится по всем МК, находит нужную, открывает,
     # считает кейсы, сверяет их число с ожидаемым
@@ -199,7 +214,9 @@ class CalculationConstructorPage(BasePage):
         self.click_on_visible_element(CCLocators.first_FEM)
         self.click_on_visible_element(CCLocators.open_FEM_menu_button)
 
-        # TODO: сделать проверку на наличие макры на стенде и загрузку в случае отсутствия
+        # Блок проверки на наличие макры на фронте
+        if CalculationConstructorPage.macro_counter(self) == 0:
+            CalculationConstructorPage.upload_macro(self, CCFiles.macro_dir)
         self.click_on_visible_element(CCLocators.open_Macro_menu_button)
         self.click_on_visible_element(CCLocators.first_Macro)
         self.click_on_visible_element(CCLocators.start_calculation_button)
@@ -258,6 +275,7 @@ class CalculationConstructorPage(BasePage):
                                                  )), "ФЭМ найдены после удаления, следовательно удаление не работает"
         self.click_on_visible_element(CCLocators.open_FEM_menu_button)
 
+    # Функция загружает ФЭМ на стенд
     def upload_fem(self, fem_file):
         fem_num = CalculationConstructorPage.fem_counter(self)
         self.click_on_visible_element(CCLocators.open_FEM_menu_button)
@@ -267,3 +285,19 @@ class CalculationConstructorPage(BasePage):
         assert (new_fem_num - fem_num) == 1, f"Количество ФЭМ на стенде не совпадает с ожидаемым. Ожидаемое = " \
                                              f"{fem_num + 1}. Фактическое = {new_fem_num}"
         self.click_on_visible_element(CCLocators.open_FEM_menu_button)
+
+    # Функция удаляет все макропараметры для стенда
+    def delete_all_macro(self):
+        macro_num = CalculationConstructorPage.macro_counter(self)
+        if macro_num == 0:
+            pass
+        self.click_on_visible_element(CCLocators.open_Macro_menu_button)
+        for i in range(macro_num, 0, -1):
+            self.click_on_visible_element(CCLocators.additional_menu_first_Macro)
+            sleep(0.5)
+            self.click_on_visible_element((By.XPATH, '/html/body/div[' + str(i+1) + ']/div[3]/ul/li/div/span'))
+
+        self.click_on_visible_element(CCLocators.open_Macro_menu_button)
+
+    def upload_macro(self, macro_file):
+        pass

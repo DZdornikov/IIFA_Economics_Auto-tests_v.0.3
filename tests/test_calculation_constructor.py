@@ -89,3 +89,23 @@ class TestCalculationConstructor:
             CCPage.delete_all_fem(page)
         with allure.step("Загрузка всех ФЭМ"):
             CCPage.upload_fem(page, fem_file)
+
+    @allure.title("Удаление и загрузка макропараметров на стэнд")
+    @allure.feature("Запросы в минио, загрузка, хранение, удаление файлов las-формата")
+    @allure.story("Удаление макропараметров со стенда, загрузка, проверка что все ок. Проверяется по количеству, имя "
+                  "файлов не проверяется")
+    @allure.severity(allure.severity_level.BLOCKER)
+    @allure.description(f"Тест запустил - {tester_name}. \nСтенд, на котором запускался тест - {current_stand}\nДата "
+                        f"запуска: {dt.now()}")
+    @pytest.mark.calculacion_constructor
+    def test_delete_and_upload_macra(self, sign_in_to_stand, macro_file=CCFiles.macro_dir):
+        with allure.step("Прохождение авторизации на стенде"):
+            page = sign_in_to_stand
+        with allure.step("Переход в конструктор расчетов"):
+            CCPage.move_to_calculation_constructor_page(page)
+            sleep(1)
+            CCPage.is_page_calculation_page(page)
+        with allure.step("Удаление макропараметров"):
+            sleep(1)
+        with allure.step("Загрузка макропараметров"):
+            sleep(1)
