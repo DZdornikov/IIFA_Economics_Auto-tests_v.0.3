@@ -284,7 +284,6 @@ class CalculationConstructorPage(BasePage):
         new_fem_num = CalculationConstructorPage.fem_counter(self)
         assert (new_fem_num - fem_num) == 1, f"Количество ФЭМ на стенде не совпадает с ожидаемым. Ожидаемое = " \
                                              f"{fem_num + 1}. Фактическое = {new_fem_num}"
-        self.click_on_visible_element(CCLocators.open_FEM_menu_button)
 
     # Функция удаляет все макропараметры для стенда
     def delete_all_macro(self):
@@ -296,8 +295,16 @@ class CalculationConstructorPage(BasePage):
             self.click_on_visible_element(CCLocators.additional_menu_first_Macro)
             sleep(0.5)
             self.click_on_visible_element((By.XPATH, '/html/body/div[' + str(i+1) + ']/div[3]/ul/li/div/span'))
-
+        assert not self.visible_element_present(CCLocators.first_Macro), "Макропараметры найдены после удаления, " \
+                                                                         "следовательно удаление не работает"
         self.click_on_visible_element(CCLocators.open_Macro_menu_button)
 
+    # Функция загружает макропараметры на стенд
     def upload_macro(self, macro_file):
-        pass
+        macro_num = CalculationConstructorPage.macro_counter(self)
+        self.click_on_visible_element(CCLocators.open_Macro_menu_button)
+        self.send_keys_to_hidden_element(CCLocators.upload_Macro, macro_file)
+        self.click_on_visible_element(CCLocators.open_Macro_menu_button)
+        new_macro_num = CalculationConstructorPage.macro_counter(self)
+        assert (new_macro_num - macro_num) == 1, f"Количество ФЭМ на стенде не совпадает с ожидаемым. Ожидаемое = " \
+                                                 f"{macro_num + 1}. Фактическое = {new_macro_num}"

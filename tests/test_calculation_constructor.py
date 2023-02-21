@@ -98,7 +98,7 @@ class TestCalculationConstructor:
     @allure.description(f"Тест запустил - {tester_name}. \nСтенд, на котором запускался тест - {current_stand}\nДата "
                         f"запуска: {dt.now()}")
     @pytest.mark.calculacion_constructor
-    def test_delete_and_upload_macra(self, sign_in_to_stand, macro_file=CCFiles.macro_dir):
+    def test_delete_and_upload_macro(self, sign_in_to_stand, macro_file=CCFiles.macro_dir):
         with allure.step("Прохождение авторизации на стенде"):
             page = sign_in_to_stand
         with allure.step("Переход в конструктор расчетов"):
@@ -106,6 +106,6 @@ class TestCalculationConstructor:
             sleep(1)
             CCPage.is_page_calculation_page(page)
         with allure.step("Удаление макропараметров"):
-            sleep(1)
+            CCPage.delete_all_macro(page)
         with allure.step("Загрузка макропараметров"):
-            sleep(1)
+            CCPage.upload_macro(page, macro_file)
