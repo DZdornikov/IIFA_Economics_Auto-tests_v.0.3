@@ -69,9 +69,9 @@ def sign_in_to_stand(driver, stand=current_stand):
 # Функция для очистки папки с видео. ПОСЛЕДСТВИЯ НЕОБРАТИМЫ!!!
 # Запуск только в PyCharm. Нужно снять комментарий, запустить, закомментировать. Если не закомментировать, то будет
 # очень плохо
-def test_novideo_clear_video_dir():
-    for f in listdir(video_reports_dir):
-        remove(path.join(video_reports_dir, f))
+# def test_novideo_clear_video_dir():
+#     for f in listdir(video_reports_dir):
+#         remove(path.join(video_reports_dir, f))
 
 
 # Функция удаляет устаревшую историю прогона тестов и заменяет на новую везде, где нужно
