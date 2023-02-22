@@ -1,1 +1,0 @@
-Unknown error: [Errno 2] No such file or directory: 'C:\\Users\\dpodolny\\PycharmProjects\\DatcyEstateAT_v.0.1\\IIFA_Economics_Auto-tests_v.0.3\\video_reports\\test_parser_18_17_13.mp4'

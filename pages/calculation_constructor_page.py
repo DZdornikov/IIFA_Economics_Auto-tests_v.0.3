@@ -308,3 +308,30 @@ class CalculationConstructorPage(BasePage):
         new_macro_num = CalculationConstructorPage.macro_counter(self)
         assert (new_macro_num - macro_num) == 1, f"Количество ФЭМ на стенде не совпадает с ожидаемым. Ожидаемое = " \
                                                  f"{macro_num + 1}. Фактическое = {new_macro_num}"
+
+    # Функция проверяет наличие элементов в условиях расчета. Проверка осуществляется методом проверки присутствия
+    # элементов self.click_on_visible_element() и методом проверки кликабельности self.element_is_clickable()
+    def check_calculation_conditions_elements(self):
+        element_list = [
+            CCLocators.conditions_project_start_input, CCLocators.conditions_project_start_button,
+            CCLocators.conditions_infl_start_date_input, CCLocators.conditions_infl_start_date_button,
+            CCLocators.conditions_disc_start_input, CCLocators.conditions_disc_start_button,
+            CCLocators.conditions_econom_limit_date_input, CCLocators.conditions_econom_limit_date_button,
+            CCLocators.conditions_calculation_horizon_input, CCLocators.conditions_date_type_econom_limit_div
+        ]
+        element_description_list = [
+            'input "Начало проекта"', 'кнопка с календариком "Начало проекта"',
+            'input "Дата начала инфлирования"', 'кнопка с календариком "Дата начала инфлирования"',
+            'input "Начало дисконтирования"', 'кнопка с календариком "Начало дисконтирования"',
+            'input "Начало дисконтирования"', 'кнопка с календариком "Дата эконом. предела"',
+            'input "Горизонт расчета"', 'список "Тип даты эконом. предела"'
+        ]
+        self.click_on_visible_element(CCLocators.open_calculation_conditions_menu_button)
+        # Блок базовых проверок
+        for i in range(len(element_list)):
+            assert self.visible_element_present(element_list[i]), f"Отсутствует, либо не видим элемент -> " \
+                                                                  f"{element_description_list[i]}"
+            assert self.element_is_clickable(element_list[i]), f"Некликабельный элемент -> {element_description_list[i]}"
+
+        #TODO: Сделать подробную проверку полей расчета, как только завезут функционал
+        self.click_on_visible_element(CCLocators.open_calculation_conditions_menu_button)

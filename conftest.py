@@ -10,6 +10,7 @@ from shutil import copy
 from datetime import datetime as dt
 from pages.sign_in_page import SignInPage
 from functools import update_wrapper
+from time import sleep
 
 # Переменные
 video_reports_dir = fr'{main_dir}\video_reports'                            # Путь к директории видео тестов
@@ -39,6 +40,7 @@ def recorder_wrapper(func):
             func(*args, **kwargs)  # No return values
             ffmpeg_process.communicate(input=b'q')
             ffmpeg_process.wait()
+            sleep(1)
             allure.attach.file(outfile, attachment_type=allure.attachment_type.MP4)
             ffmpeg_process.kill()
         except AssertionError as ae:
