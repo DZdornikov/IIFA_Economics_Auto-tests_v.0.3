@@ -6,7 +6,7 @@ class CalculationConstructorFilesList:
     current_dir = current_dir[:-13]
 
     # Макропараметры
-    macro_dir = os.path.join(current_dir, '3_Orenburg_macro_22_6Б_06_10+(1).las')
+    macro_dir = os.path.join(current_dir, '3 Orenburg macro 22.6Б 06.10.las')
 
     # ФЭМ НДПИ
     FEM_NDPI_dir = os.path.join(current_dir, 'Gazprom-Neft_Upstream_v22.6Б.xml')
