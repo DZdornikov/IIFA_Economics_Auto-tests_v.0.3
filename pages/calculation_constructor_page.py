@@ -268,6 +268,7 @@ class CalculationConstructorPage(BasePage):
             self.click_on_visible_element(CCLocators.additional_menu_first_FEM)
             sleep(0.5)
             self.click_on_visible_element((By.XPATH, '/html/body/div[' + str(i+1) + ']/div[3]/ul/li/div/span'))
+            sleep(0.5)
         assert not self.visible_element_present((By.CSS_SELECTOR,
                                                  '#root > div > div:nth-child(3) > div > div > div:nth-child(3) > div >'
                                                  ' div > div > div > div.MuiCollapse-root.MuiCollapse-vertical.MuiColla'
