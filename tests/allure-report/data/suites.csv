@@ -1,29 +1,17 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Thu Mar 09 12:17:41 KRAT 2023","Thu Mar 09 12:21:55 KRAT 2023","254431","tests","test_calculation_constructor","TestCalculationConstructor","","","Тест загрузки МК","Тест запустил - Данил Подольный. 
+Стенд, на котором запускался тест - http://demo.rospan.iifa.ru/economics/
+Дата запуска: 2023-03-09 12:01:49.302995"
 "passed","Thu Mar 09 12:07:33 KRAT 2023","Thu Mar 09 12:13:06 KRAT 2023","332390","tests","test_calculation_constructor","TestCalculationConstructor","","","Тест загрузки МК","Тест запустил - Данил Подольный. 
 Стенд, на котором запускался тест - http://demo.rospan.iifa.ru/economics/
 Дата запуска: 2023-03-09 12:01:49.302995"
 "passed","Thu Mar 09 12:13:17 KRAT 2023","Thu Mar 09 12:17:29 KRAT 2023","252004","tests","test_calculation_constructor","TestCalculationConstructor","","","Тест загрузки МК","Тест запустил - Данил Подольный. 
 Стенд, на котором запускался тест - http://demo.rospan.iifa.ru/economics/
 Дата запуска: 2023-03-09 12:01:49.302995"
-"failed","Thu Mar 09 12:01:54 KRAT 2023","Thu Mar 09 12:06:28 KRAT 2023","273637","tests","test_calculation_constructor","TestCalculationConstructor","","","Тест загрузки МК","Тест запустил - Данил Подольный. 
-Стенд, на котором запускался тест - http://demo.rospan.iifa.ru/economics/
-Дата запуска: 2023-03-09 12:01:49.302995"
-"passed","Thu Mar 09 12:26:25 KRAT 2023","Thu Mar 09 12:26:54 KRAT 2023","28701","tests","test_calculation_constructor","TestCalculationConstructor","","","Удаление и загрузка ФЭМ на стэнд в формате .xml","Тест запустил - Данил Подольный. 
-Стенд, на котором запускался тест - http://demo.rospan.iifa.ru/economics/
-Дата запуска: 2023-03-09 12:26:20.117010"
 "passed","Thu Mar 09 12:27:06 KRAT 2023","Thu Mar 09 12:27:34 KRAT 2023","28476","tests","test_calculation_constructor","TestCalculationConstructor","","","Удаление и загрузка ФЭМ на стэнд в формате .xml","Тест запустил - Данил Подольный. 
 Стенд, на котором запускался тест - http://demo.rospan.iifa.ru/economics/
 Дата запуска: 2023-03-09 12:26:20.117010"
-"broken","Thu Mar 09 12:22:07 KRAT 2023","Thu Mar 09 12:23:44 KRAT 2023","96815","tests","test_calculation_constructor","TestCalculationConstructor","","","Тест загрузки МК","Тест запустил - Данил Подольный. 
-Стенд, на котором запускался тест - http://demo.rospan.iifa.ru/economics/
-Дата запуска: 2023-03-09 12:01:49.302995"
-"passed","Thu Mar 09 12:00:51 KRAT 2023","Thu Mar 09 12:01:03 KRAT 2023","12228","tests","test_calculation_constructor","TestCalculationConstructor","","","Удаление МК с фронта","Тест запустил - Данил Подольный. 
-Стенд, на котором запускался тест - http://demo.rospan.iifa.ru/economics/
-Дата запуска: 2023-03-09 12:00:45.618364"
-"passed","Thu Mar 09 12:17:41 KRAT 2023","Thu Mar 09 12:21:55 KRAT 2023","254431","tests","test_calculation_constructor","TestCalculationConstructor","","","Тест загрузки МК","Тест запустил - Данил Подольный. 
-Стенд, на котором запускался тест - http://demo.rospan.iifa.ru/economics/
-Дата запуска: 2023-03-09 12:01:49.302995"
-"passed","Wed Feb 22 16:26:31 KRAT 2023","Wed Feb 22 16:26:44 KRAT 2023","12521","tests","test_calculation_constructor","TestCalculationConstructor","","","Функционал выбора условий для расчета кейсов","Тест запустил - Данил Подольный. 
+"passed","Wed Feb 22 16:20:19 KRAT 2023","Wed Feb 22 16:22:08 KRAT 2023","108973","tests","test_calculation_constructor","TestCalculationConstructor","","","Расчет случайного кейса","Тест запустил - Данил Подольный. 
 Стенд, на котором запускался тест - http://genrestest.nntc.pro/economics/
 Дата запуска: 2023-02-22 15:34:02.841432"
 "passed","Thu Mar 09 12:06:36 KRAT 2023","Thu Mar 09 12:07:21 KRAT 2023","45335","tests","test_calculation_constructor","TestCalculationConstructor","","","Тест загрузки МК","Тест запустил - Данил Подольный. 
@@ -32,6 +20,18 @@
 "passed","Thu Mar 09 12:28:02 KRAT 2023","Thu Mar 09 12:28:30 KRAT 2023","28007","tests","test_calculation_constructor","TestCalculationConstructor","","","Удаление и загрузка макропараметров на стэнд в формате .las","Тест запустил - Данил Подольный. 
 Стенд, на котором запускался тест - http://demo.rospan.iifa.ru/economics/
 Дата запуска: 2023-03-09 12:27:56.615122"
-"passed","Wed Feb 22 16:20:19 KRAT 2023","Wed Feb 22 16:22:08 KRAT 2023","108973","tests","test_calculation_constructor","TestCalculationConstructor","","","Расчет случайного кейса","Тест запустил - Данил Подольный. 
+"passed","Wed Feb 22 16:26:31 KRAT 2023","Wed Feb 22 16:26:44 KRAT 2023","12521","tests","test_calculation_constructor","TestCalculationConstructor","","","Функционал выбора условий для расчета кейсов","Тест запустил - Данил Подольный. 
 Стенд, на котором запускался тест - http://genrestest.nntc.pro/economics/
 Дата запуска: 2023-02-22 15:34:02.841432"
+"passed","Thu Mar 09 13:24:02 KRAT 2023","Thu Mar 09 13:24:57 KRAT 2023","54923","tests","test_calculation_constructor","TestCalculationConstructor","","","Тест загрузки МК","Тест запустил - Данил Подольный. 
+Стенд, на котором запускался тест - http://demo.rospan.iifa.ru/economics/
+Дата запуска: 2023-03-09 13:23:56.510229"
+"passed","Thu Mar 09 12:47:24 KRAT 2023","Thu Mar 09 12:53:05 KRAT 2023","340677","tests","test_calculation_constructor","TestCalculationConstructor","","","Тест загрузки МК","Тест запустил - Данил Подольный. 
+Стенд, на котором запускался тест - http://demo.rospan.iifa.ru/economics/
+Дата запуска: 2023-03-09 12:47:18.891046"
+"passed","Thu Mar 09 12:26:25 KRAT 2023","Thu Mar 09 12:26:54 KRAT 2023","28701","tests","test_calculation_constructor","TestCalculationConstructor","","","Удаление и загрузка ФЭМ на стэнд в формате .xml","Тест запустил - Данил Подольный. 
+Стенд, на котором запускался тест - http://demo.rospan.iifa.ru/economics/
+Дата запуска: 2023-03-09 12:26:20.117010"
+"passed","Thu Mar 09 12:00:51 KRAT 2023","Thu Mar 09 12:01:03 KRAT 2023","12228","tests","test_calculation_constructor","TestCalculationConstructor","","","Удаление МК с фронта","Тест запустил - Данил Подольный. 
+Стенд, на котором запускался тест - http://demo.rospan.iifa.ru/economics/
+Дата запуска: 2023-03-09 12:00:45.618364"
