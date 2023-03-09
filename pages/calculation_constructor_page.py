@@ -269,6 +269,8 @@ class CalculationConstructorPage(BasePage):
             sleep(0.5)
             self.click_on_visible_element((By.XPATH, '/html/body/div[' + str(i+1) + ']/div[3]/ul/li/div/span'))
             sleep(0.5)
+        self.refresh()
+        self.click_on_visible_element(CCLocators.open_FEM_menu_button)
         assert not self.visible_element_present((By.CSS_SELECTOR,
                                                  '#root > div > div:nth-child(3) > div > div > div:nth-child(3) > div >'
                                                  ' div > div > div > div.MuiCollapse-root.MuiCollapse-vertical.MuiColla'
@@ -296,6 +298,8 @@ class CalculationConstructorPage(BasePage):
             self.click_on_visible_element(CCLocators.additional_menu_first_Macro)
             sleep(0.5)
             self.click_on_visible_element((By.XPATH, '/html/body/div[' + str(i+1) + ']/div[3]/ul/li/div/span'))
+        self.refresh()
+        self.click_on_visible_element(CCLocators.open_Macro_menu_button)
         assert not self.visible_element_present(CCLocators.first_Macro), "Макропараметры найдены после удаления, " \
                                                                          "следовательно удаление не работает"
         self.click_on_visible_element(CCLocators.open_Macro_menu_button)
@@ -334,5 +338,6 @@ class CalculationConstructorPage(BasePage):
                                                                   f"{element_description_list[i]}"
             assert self.element_is_clickable(element_list[i]), f"Некликабельный элемент -> {element_description_list[i]}"
 
-        #TODO: Сделать подробную проверку полей расчета, как только завезут функционал
+        # TODO: Сделать подробную проверку полей расчета, как только завезут функционал
         self.click_on_visible_element(CCLocators.open_calculation_conditions_menu_button)
+

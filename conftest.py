@@ -1,6 +1,7 @@
 import allure
 import pytest
 import subprocess
+import psutil
 from config import main_dir, ffmpeg_path, current_stand
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -30,6 +31,11 @@ def driver():
 # Wrapper для записи видео во время работы теста
 def recorder_wrapper(func):
     def func_wrapper(*args, **kwargs):
+        # Проверка, что у нас не гоняется ffmpeg в фоне
+        for proc in psutil.process_iter():
+            name = proc.name()
+            if name == "ffmpeg.exe":
+                proc.kill()
         try:
             outfile = f"{video_reports_dir}\\{func.__name__}_{dt.now().strftime('%H_%M_%S')}.mp4"
             if path.exists(outfile):
@@ -45,6 +51,7 @@ def recorder_wrapper(func):
             ffmpeg_process.kill()
         except AssertionError as ae:
             print(f"Assertion failed: {str(ae)}")
+            # Возможно стоит сюда поместить завершение процесса
             raise
         except Exception as e:
             print(f"Unknown error: {str(e)}")

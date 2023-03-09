@@ -7,6 +7,7 @@ mskdev = 'http://mskdev.nntc.pro/economics/'
 gpn = 'http://gpn.mskdev.nntc.pro/economics/'
 generated_dev = "http://generated.dev.nntc.pro/economics/"
 genrestest = 'http://genrestest.nntc.pro/economics/'
+demorospan = 'http://demo.rospan.iifa.ru/economics/'
 
 # Функциональное
 main_dir = path.dirname(__file__)
