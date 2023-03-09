@@ -126,7 +126,10 @@ class CalculationConstructorPage(BasePage):
                                         'v > div> div > div.MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-entered.c'
                                         'ss-c4sutr > div > div > div > div > ul > div:nth-child(' + str(j) +
                                         ') > div > li > span')
-                        case_name = self.text_of_visible_element(case_locator)
+                        try:
+                            case_name = self.text_of_visible_element(case_locator)
+                        except Exception:
+
                         if case_name == mb_list[k]:
                             case_counter += 1
                             break

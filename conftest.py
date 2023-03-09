@@ -29,6 +29,7 @@ def driver():
 
 
 # Wrapper для записи видео во время работы теста
+# Дропается если тест провальный
 def recorder_wrapper(func):
     def func_wrapper(*args, **kwargs):
         # Проверка, что у нас не гоняется ffmpeg в фоне
@@ -36,13 +37,13 @@ def recorder_wrapper(func):
             name = proc.name()
             if name == "ffmpeg.exe":
                 proc.kill()
+        outfile = f"{video_reports_dir}\\{func.__name__}_{dt.now().strftime('%H_%M_%S')}.mp4"
+        if path.exists(outfile):
+            remove(outfile)
+        cmd = f'{ffmpeg_path} -f gdigrab -framerate ntsc -video_size 1920x1080 -i desktop {outfile}'
+        ffmpeg_process = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                                          stdin=subprocess.PIPE)
         try:
-            outfile = f"{video_reports_dir}\\{func.__name__}_{dt.now().strftime('%H_%M_%S')}.mp4"
-            if path.exists(outfile):
-                remove(outfile)
-            cmd = f'{ffmpeg_path} -f gdigrab -framerate ntsc -video_size 1920x1080 -i desktop {outfile}'
-            ffmpeg_process = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                                              stdin=subprocess.PIPE)
             func(*args, **kwargs)  # No return values
             ffmpeg_process.communicate(input=b'q')
             ffmpeg_process.wait()
@@ -51,10 +52,19 @@ def recorder_wrapper(func):
             ffmpeg_process.kill()
         except AssertionError as ae:
             print(f"Assertion failed: {str(ae)}")
-            # Возможно стоит сюда поместить завершение процесса
+            ffmpeg_process.communicate(input=b'q')
+            ffmpeg_process.wait()
+            sleep(1)
+            allure.attach.file(outfile, attachment_type=allure.attachment_type.MP4)
+            ffmpeg_process.kill()
             raise
         except Exception as e:
             print(f"Unknown error: {str(e)}")
+            ffmpeg_process.communicate(input=b'q')
+            ffmpeg_process.wait()
+            sleep(1)
+            allure.attach.file(outfile, attachment_type=allure.attachment_type.MP4)
+            ffmpeg_process.kill()
             raise
 
     update_wrapper(func_wrapper, func)
