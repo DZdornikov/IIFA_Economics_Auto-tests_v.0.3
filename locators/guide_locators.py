@@ -80,3 +80,5 @@ class GuideLocators:
     save_guide_button_confirm = (By.CSS_SELECTOR, "body > div > div > div > div > button:nth-child(2)")
     # Кнопка добавить справочник или версию справочника
     add_guide_button = (By.CSS_SELECTOR, "#description-menu > div > ul > li:nth-child(1)")
+    # TEST VERSION
+    shadow_guide = (By.CSS_SELECTOR, "header > div > div > div:nth-child(3) > a")

@@ -1,6 +1,7 @@
 from selenium.webdriver.support.ui import WebDriverWait as Wait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
 
 
 class BasePage:
@@ -67,6 +68,16 @@ class BasePage:
             if not ec.element_to_be_clickable(element):
                 raise Exception("Элемент не кликабельный")
             return element.click()
+        except TimeoutException:
+            raise Exception("Элемент не найден")
+
+    def click_on_shadow_element(self, locator):
+        try:
+            shadow_host = Wait(self.driver, 5).until(
+                ec.presence_of_element_located((By.XPATH, '//*[@id="root"]/div[2]/header-mfe-ui')))
+            shadow_root = self.driver.execute_script('return arguments[0].shadowRoot', shadow_host)
+            shadow_element = Wait(shadow_root, 5).until(ec.presence_of_element_located(locator))
+            return shadow_element.click()
         except TimeoutException:
             raise Exception("Элемент не найден")
 

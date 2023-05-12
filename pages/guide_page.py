@@ -17,7 +17,7 @@ class GuidePage(BasePage):
 
     def move_to_guide_page(self):
         assert self.check_url(current_stand), "Открыта страница, отличная от стенда экономики"
-        self.click_on_visible_element(GL.move_to_guide_page)
+        self.click_on_shadow_element(GL.shadow_guide)
 
     def create_guide_group(self):
         if self.click_on_visible_element(GL.create_guide_group):

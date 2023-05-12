@@ -17,7 +17,7 @@ class TestGuideUploadRigDuration:
         with allure.step("Прохождение авторизации на стенде"):
             sign_in = sign_in_to_stand
             GP.move_to_guide_page(sign_in)
-            sleep(1)
+            sleep(10)
             GP.is_page_guide_page(sign_in)
         with allure.step("Создание и открытие нужного справочника"):
             GP.search_guide_window(sign_in)
