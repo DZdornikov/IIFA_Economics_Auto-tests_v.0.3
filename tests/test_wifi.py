@@ -7,3 +7,4 @@ import keyboard
 class TestWifi:
 
     def test_wifi(self, sign_in_to_stand):
+        test
