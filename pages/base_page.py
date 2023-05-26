@@ -4,6 +4,9 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 
 
+# TODO: ВЫКИНУТЬ ОТСЮДА ХАРДКОД ТЕНЕВЫХ ЭЛЕМЕНТОВ, ИСПОЛЬЗОВАТЬ НЕПОСРЕДСТВЕННО В ФУНКЦИЯХ ТЕСТА. МЕТОД ДОЛЖЕН ЗАДАВАТЬ
+#  СЯ ПЕРЕМЕННОЙ
+
 class BasePage:
     def __init__(self, driver, url):
         self.driver = driver
@@ -74,7 +77,7 @@ class BasePage:
     def click_on_shadow_element(self, locator):
         try:
             shadow_host = Wait(self.driver, 5).until(
-                ec.presence_of_element_located((By.XPATH, '//*[@id="root"]/div[2]/header-mfe-ui')))
+                ec.presence_of_element_located(locator))
             shadow_root = self.driver.execute_script('return arguments[0].shadowRoot', shadow_host)
             shadow_element = Wait(shadow_root, 5).until(ec.presence_of_element_located(locator))
             return shadow_element.click()
@@ -94,6 +97,27 @@ class BasePage:
         try:
             element = Wait(self.driver, 5).until((ec.presence_of_element_located(locator)))
             return element.send_keys(keys)
+        except TimeoutException:
+            raise Exception("Элемент не найден")
+
+    def send_keys_to_shadow_element_wifi_login(self, locator, keys):
+        try:
+            shadow_host = Wait(self.driver, 5).until(
+                ec.presence_of_element_located((By.XPATH, '//*[@id="app"]/div/div/form/div[1]/div/div/input')))
+            shadow_root = self.driver.execute_script('return arguments[0].shadowRoot', shadow_host)
+            shadow_element = Wait(shadow_root, 5).until(ec.presence_of_element_located(locator))
+            return shadow_element.send_keys(keys)
+        except TimeoutException:
+            raise Exception("Элемент не найден")
+
+    def send_keys_to_shadow_element_wifi_password(self, locator, keys):
+        try:
+            shadow_host = Wait(self.driver, 5).until(
+                ec.presence_of_element_located((By.XPATH, '// *[ @ id = "app"] / div / div / form / div[2] / div / div '
+                                                          '/ input')))
+            shadow_root = self.driver.execute_script('return arguments[0].shadowRoot', shadow_host)
+            shadow_element = Wait(shadow_root, 5).until(ec.presence_of_element_located(locator))
+            return shadow_element.send_keys(keys)
         except TimeoutException:
             raise Exception("Элемент не найден")
 

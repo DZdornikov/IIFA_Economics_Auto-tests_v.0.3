@@ -10,6 +10,7 @@ from shutil import copy
 from datetime import datetime as dt
 from pages.sign_in_page import SignInPage
 from functools import update_wrapper
+from selenium.webdriver.common.by import By
 
 # Переменные
 video_reports_dir = fr'{main_dir}\video_reports'                            # Путь к директории видео тестов
@@ -58,11 +59,15 @@ def pytest_runtest_call(item):
 
 
 # Функция для входа на стенд. Запускает модуль "Экономика" по адресу стенда, проходит KeyCloak
+# TODO: Пользователь может менять фикстуру перед запуском скрипта. Сейчас поддерживается две фикстуры: для кейклока и с
+#  траницы с вайфаем. Имя функции можно найти по ctrl+ЛКМ.
 @pytest.fixture()
 def sign_in_to_stand(driver, stand=current_stand):
     sign_in_page = SignInPage(driver, stand)
     sign_in_page.open()
-    sign_in_page.keycloak_authorization()
+    sign_in_page.click_on_visible_element((By.XPATH, '//*[@id="details-button"]'))
+    sign_in_page.click_on_visible_element((By.XPATH, '//*[@id="proceed-link"]'))
+    sign_in_page.wifi_authorization()
     return sign_in_page
 
 
